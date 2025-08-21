@@ -1,0 +1,68 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Cadastro de Tarefas</h2>
+  
+  <!-- Alerta dinâmico -->
+  <div *ngIf="mensagem" class="alert alert-{{ tipoMensagem }}" role="alert">
+    {{ mensagem }}
+  </div>
+  
+  <!-- Formulário -->
+  <form (ngSubmit)="adicionarTarefa()" class="mb-4">
+    <div class="mb-3">
+      <label for="titulo" class="form-label">Título</label>
+      <input
+        type="text"
+        id="titulo"
+        class="form-control"
+        placeholder="Título da tarefa"
+        [(ngModel)]="novaTarefa.titulo"
+        name="titulo"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="descricao" class="form-label">Descrição</label>
+      <textarea
+        id="descricao"
+        class="form-control"
+        placeholder="Descrição da tarefa"
+        [(ngModel)]="novaTarefa.descricao"
+        name="descricao"
+      ></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Adicionar</button>
+  </form>
+  
+  <hr />
+  
+  <!-- Lista de tarefas -->
+  <h3 class="mb-3">Lista de Tarefas</h3>
+  <ul class="list-group">
+    <li *ngFor="let tarefa of tarefas" class="list-group-item">
+      <div class="d-flex justify-content-between align-items-start">
+        <div>
+          <h5 class="mb-1">
+            {{ tarefa.titulo }}
+            <small class="text-muted">({{ tarefa.status }})</small>
+          </h5>
+          <p class="mb-2">{{ tarefa.descricao }}</p>
+        </div>
+        <div class="btn-group">
+          <button
+            *ngIf="tarefa.status === 'pendente'"
+            class="btn btn-success btn-sm"
+            (click)="concluirTarefa(tarefa)"
+          >
+            Concluir
+          </button>
+          <button
+            class="btn btn-danger btn-sm"
+            (click)="excluirTarefa(tarefa.id!)"
+          >
+            Excluir
+          </button>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
