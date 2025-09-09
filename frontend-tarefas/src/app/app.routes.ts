@@ -1,8 +1,12 @@
 import { Routes } from '@angular/router';
-import { Home } from './pages/home/home';
-import { Tarefas } from './pages/tarefas/tarefas';
+import { Login } from './login/login';
+import { Dashboard } from './dashboard/dashboard';
+import { RegistrarComponent } from './registrar/registrar';
+
 export const routes: Routes = [
-    
-{ path: '', component: Home }, // Página inicial
-{ path: 'tarefas', component: Tarefas }
+    { path: '', redirectTo: 'login', pathMatch: 'full' }, // rota inicial
+    { path: 'login', component: Login },
+    { path: 'dashboard', component: Dashboard },
+    {path: 'registrar', component: RegistrarComponent},
+    { path: '**', redirectTo: 'login' },// rota coringa
 ];

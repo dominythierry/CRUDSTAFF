@@ -1,0 +1,53 @@
+
+<div class="login-container">
+  <div class="overlay"></div> <!-- camada para imagem leve no fundo -->
+
+  <div class="login-card">
+    <img src="https://www.gov.br/prf/pt-br/noticias/estaduais/distrito-federal/2023/outubro/nota-de-esclarecimento-superintendencia-da-policia-rooviaria-federal-no-distrito-federal/prf.png" alt="Logo PRF" class="logo" />
+
+    <form id="login-form">
+
+      <button type="submit" class="btn-primary">Registrar e Entrar</button>
+    </form>
+  </div>
+
+
+  <div class="login-card">
+
+<form id="register-form" (ngSubmit)="registrar()">
+  <div class="input-group">
+    <label for="nome">Nome completo</label>
+    <input id="nome" type="text" [(ngModel)]="nome" name="nome" placeholder="Digite seu nome" required />
+  </div>
+
+  <div class="input-group">
+    <label for="cpf">CPF</label>
+    <input id="cpf" type="text" [(ngModel)]="cpf" name="cpf" placeholder="Digite seu CPF" required />
+  </div>
+
+  <div class="input-group">
+    <label for="email">E-mail</label>
+    <input id="email" type="email" [(ngModel)]="email" name="email" placeholder="Digite seu email" required />
+  </div>
+
+  <div class="input-group">
+    <label for="senha">Criar senha</label>
+    <input id="senha" type="password" [(ngModel)]="senha" name="senha" placeholder="Digite sua senha" required />
+  </div>
+
+  <div class="input-group">
+    <label for="confirmSenha">Confirmar senha</label>
+    <input id="confirmSenha" type="password" [(ngModel)]="confirmSenha" name="confirmSenha" placeholder="Confirme sua senha" required />
+  </div>
+
+  <button type="submit" class="btn-primary">Registrar e Entrar</button>
+</form>
+
+<p *ngIf="mensagem" style="color:red">{{ mensagem }}</p>
+
+    <p class="register">
+      Já possui uma conta?
+      <a routerLink="/login">Login</a>
+    </p>
+  </div>
+</div>

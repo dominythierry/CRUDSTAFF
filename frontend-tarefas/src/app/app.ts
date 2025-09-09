@@ -1,14 +1,16 @@
 import { Component, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { RouterOutlet } from '@angular/router';
-import { Menu } from './components/menu/menu';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, Menu],
+  imports: [RouterOutlet, FormsModule, HttpClientModule
+  ],
   templateUrl: './app.html',
-  styleUrls: ['./app.css'],
+  styleUrl: './app.css'
+  
 })
 export class App {
-  protected readonly title = signal('frontend-tarefas');
-};
+  protected readonly title = signal('front-end');
+}
