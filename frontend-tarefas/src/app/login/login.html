@@ -6,15 +6,15 @@
     <img src="https://www.gov.br/prf/pt-br/noticias/estaduais/espirito-santo/2025/agosto/prf-lanca-campanha-nacional-para-divulgar-o-sistema-sinal-2013-desaparecidos/brasao_prf.png" alt="Logo PRF" class="logo" />
     <h1>Entrar</h1>
 
-    <form>
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
       <div class="input-group">
-        <label for="usuario">Usuário</label>
-        <input id="usuario" type="text" placeholder="Digite seu usuário" />
+        <label for="email">Email</label>
+        <input id="email" type="text" formControlName="email" placeholder="Digite seu email" />
       </div>
 
       <div class="input-group">
         <label for="senha">Senha</label>
-        <input id="senha" type="password" placeholder="Digite sua senha" />
+        <input id="senha" formControlName="senha" type="password" placeholder="Digite sua senha" />
       </div>
 
       <button type="submit" class="btn-primary">Login</button>

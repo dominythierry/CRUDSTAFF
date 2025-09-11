@@ -3,6 +3,8 @@ const router = express.Router();
 const db = require("../services/db");
 const bcrypt = require("bcrypt");
 
+const User = require('./models/User');
+
 // GET - Listar todos os usuários
 router.get("/usuarios", (req, res) => {
   const sql = "SELECT id, nome, cpf, email FROM administradores_prf";
@@ -33,21 +35,26 @@ router.post("/registrar", async (req, res) => {
 });
 
 // LOGIN de usuário
-router.post("/login", (req, res) => {
+app.post("/login", async (req, res) => {
   const { email, senha } = req.body;
-  if (!email || !senha) {
-    return res.status(400).json({ erro: "Preencha todos os campos" });
+
+  const user = await User.findOne({ email });
+
+ if (!user) {
+  return res.status(401).send({ message: "usuario nao encontrado" });
   }
-  const sql = "SELECT * FROM administradores_prf WHERE email = ?";
-  db.query(sql, [email], async (err, results) => {
-    if (err) return res.status(500).json({ erro: "Erro ao buscar usuário" });
-    if (results.length === 0) return res.status(401).json({ erro: "Usuário não encontrado" });
 
-    const usuario = results[0];
-    const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
-    if (!senhaCorreta) return res.status(401).json({ erro: "Senha incorreta" });
+  const isValidPassword = await bcrypt.compare(senha, usuario.senha);
 
-    res.json({ mensagem: "Login realizado com sucesso", usuario: { id: usuario.id, nome: usuario.nome, email: usuario.email } });
+
+  if (!isValidPassword) {
+    return res.status(401).send({ message: 'Senha inválida' });
+  }
+
+ const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
+    expiresIn: '1h',
   });
-})
+
+  res.send({ token });
+});
 module.exports = router;

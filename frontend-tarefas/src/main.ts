@@ -6,10 +6,21 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import 'zone.js';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+
+
+@NgModule({
+  imports: [BrowserModule, FormsModule],
+  // ...
+})
+export class AppModule {}
+
 
 bootstrapApplication(App, {
   providers: [
-    provideHttpClient(withFetch()),
+    provideHttpClient(),
     provideRouter(routes)
   ],
 });

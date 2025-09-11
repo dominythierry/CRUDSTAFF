@@ -2,6 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const tarefasRoutes = require("./routes/tarefas");
 const db = require("./services/db");
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
 
 const app = express();
 const port = 3000;
