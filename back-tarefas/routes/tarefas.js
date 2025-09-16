@@ -2,8 +2,10 @@ const express = require("express");
 const router = express.Router();
 const db = require("../services/db");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const e = require("express");
 
-const User = require('./models/User');
+
 
 // GET - Listar todos os usuários
 router.get("/usuarios", (req, res) => {
@@ -34,27 +36,66 @@ router.post("/registrar", async (req, res) => {
   });
 });
 
-// LOGIN de usuário
-app.post("/login", async (req, res) => {
+//requisitos de login
+router.post("/login", (req, res) => {
   const { email, senha } = req.body;
 
-  const user = await User.findOne({ email });
+  db.query("SELECT * FROM administradores_prf WHERE email = ?", [email], async (err, results) => {
+    if (err) {
+      console.error("Erro no banco:", err);
+      return res.status(500).json({ error: "Erro no banco de dados" });
+    }
 
- if (!user) {
-  return res.status(401).send({ message: "usuario nao encontrado" });
-  }
+    if (results.length === 0) {
+      return res.status(401).json({ message: "Usuário não encontrado" });
+    }
 
-  const isValidPassword = await bcrypt.compare(senha, usuario.senha);
+    const usuario = results[0];
+    
+    // compara senha enviada com o hash salvo no banco
+    const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
 
+    if (!senhaCorreta) {
+      return res.status(401).json({ message: "Senha inválida" });
+    }
 
-  if (!isValidPassword) {
-    return res.status(401).send({ message: 'Senha inválida' });
-  }
-
- const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
-    expiresIn: '1h',
+    // se tudo ok
+    res.json({ message: "Login bem-sucedido", usuario: { id: usuario.id, nome: usuario.nome, email: usuario.email } });
   });
-
-  res.send({ token });
 });
+
+// DELETAR conta do usuário
+router.delete("/deletar", (req, res) => {
+  const { email, senha } = req.body;
+
+  if (!email || !senha) {
+    return res.status(400).json({ erro: "Informe email e senha" });
+  }
+
+  const sql = "SELECT * FROM administradores_prf WHERE email = ?";
+  db.query(sql, [email], async (err, results) => {
+    if (err) return res.status(500).json({ erro: "Erro no servidor" });
+    if (results.length === 0) {
+      return res.status(404).json({ erro: "Usuário não encontrado" });
+    }
+
+    const user = results[0];
+    const isValidPassword = await bcrypt.compare(senha, user.senha);
+
+    if (!isValidPassword) {
+      return res.status(401).json({ erro: "Senha incorreta" });
+    }
+
+    // se senha ok → deleta
+    const deleteSql = "DELETE FROM administradores_prf WHERE email = ?";
+    db.query(deleteSql, [email], (err, result) => {
+      if (err) return res.status(500).json({ erro: "Erro ao deletar usuário" });
+      res.json({ mensagem: "Conta deletada com sucesso" });
+    });
+  });
+});
+
+
+
 module.exports = router;
+
