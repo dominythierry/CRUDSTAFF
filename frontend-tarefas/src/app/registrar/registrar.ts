@@ -21,6 +21,13 @@ export class RegistrarComponent {
 
   constructor(private http: HttpClient) {}
 
+  redefinirsenha() {
+    window.location.href = '/redefinirsenha';
+  }
+  goToLogin() {
+    window.location.href = '/login';
+  }
+
   registrar() {
     if (this.senha !== this.confirmSenha) {
       this.mensagem = 'As senhas não coincidem!';

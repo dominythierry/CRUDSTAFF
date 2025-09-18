@@ -12,16 +12,18 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./login.css'],  // Corrigido
 })
 export class LoginComponent implements OnInit {
-
+  constructor(private http: HttpClient, private router: Router) { }
+  
+  goToRegistrar() {
+    this.router.navigate(['/registrar']);
+  }
+  
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]), // Adicionado Validators.email
     senha: new FormControl('', Validators.required),
   });
 
-  constructor(
-    private http: HttpClient,
-    private router: Router
-  ) { }
+
 
   ngOnInit() {}
 

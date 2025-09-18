@@ -4,7 +4,8 @@ const db = require("../services/db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const e = require("express");
-
+const nodemailer = require('nodemailer');
+const app = express();
 
 
 // GET - Listar todos os usuários
