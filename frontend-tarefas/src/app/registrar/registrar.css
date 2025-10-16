@@ -96,6 +96,7 @@
   color: #0B5FA8;
   font-weight: bold;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .register a:hover {
