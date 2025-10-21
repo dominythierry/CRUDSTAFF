@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterOutlet } from '@angular/router';
 import { Sidenav } from './sidenav/sidenav';
+import { Body } from './body/body';
 
 interface SideNavToggle {
   screenWidth: number;
@@ -12,7 +13,7 @@ interface SideNavToggle {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, FormsModule, HttpClientModule, Sidenav],
+  imports: [Body, FormsModule, HttpClientModule, Sidenav],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })

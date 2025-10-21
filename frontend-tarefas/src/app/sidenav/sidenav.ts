@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { navbarData } from './nav-data';
 
 interface SidenavToggle {
@@ -11,7 +11,7 @@ interface SidenavToggle {
 @Component({
   selector: 'app-sidenav',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './sidenav.html',
   styleUrls: ['./sidenav.scss']
 })
