@@ -13,19 +13,24 @@
         display: flex;
         align-items: center;
         padding: 0.93rem 0.938rem 0.938rem;
-        width: 100%;
+        // width: 100%;
 
         .logo{
             background: #fff;
             text-align: center;
-            width: 3rem;
-            min-width: 3rem;
-            border-radius: 0.313rem;
+            width: 3.5rem;
+            min-width: 3.5rem;
+            height: 3.5rem;
+            // border-radius: 0.313rem;
             padding: 0.313rem;
             font-size: 24px;
             font-weight: 900;
             cursor: pointer;
             border: none;
+        }
+
+        #logo-sidenav {
+            width: 3rem;
         }
 
 
@@ -43,7 +48,7 @@
             width: 2rem;
             height: 2rem;
             border-radius: 50%;
-            background-color: transparent;
+            // background-color: transparent;
             border: none;
 
             .fa-times {

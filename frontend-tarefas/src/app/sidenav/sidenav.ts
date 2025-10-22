@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, EventEmitter, Output, Inject, PLATFORM_ID, OnInit } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { navbarData } from './nav-data';
@@ -15,7 +15,8 @@ interface SidenavToggle {
   templateUrl: './sidenav.html',
   styleUrls: ['./sidenav.scss']
 })
-export class Sidenav {
+export class Sidenav implements OnInit {
+
   @Output() onToggleSideNav = new EventEmitter<SidenavToggle>();
 
   collapsed = false;
@@ -27,6 +28,11 @@ export class Sidenav {
     if (isPlatformBrowser(this.platformId)) {
       this.screenWidth = window.innerWidth;
     }
+  }
+
+  ngOnInit(): void {
+    this.screenWidth = window.innerWidth;
+    
   }
 
   toggleCollapse(): void {

@@ -1,9 +1,11 @@
 <div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed' : ''">
     <div class="logo-container">
-        <button class="logo" (click)="toggleCollapse()"></button>
-        <div class="logo-text" *ngIf="collapsed">PFR - SP</div>
+        <button class="logo" (click)="toggleCollapse()">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9XYK23nZ0mK4zlH2H9n2Mk7JD9wc_RpAwyQ&s" alt="Logo PRF" id="logo-sidenav">
+        </button>
+        <div class="logo-text" *ngIf="collapsed">Pátio Veícular</div>
         <button class="btn-close" *ngIf="collapsed" (click)="closeSidenav()">
-            <i class="fal fa-times close-icon"></i>
+            <i class="fa-solid fa-xmark"></i>
         </button>
     </div>
     <ul class="sidenav-nav">
