@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Inject, PLATFORM_ID, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, Inject, PLATFORM_ID, OnInit, Host, HostListener } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { navbarData } from './nav-data';
@@ -13,8 +13,10 @@ interface SidenavToggle {
   standalone: true,
   imports: [CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './sidenav.html',
-  styleUrls: ['./sidenav.scss']
+  styleUrls: ['./sidenav.scss'],
 })
+
+
 export class Sidenav implements OnInit {
 
   @Output() onToggleSideNav = new EventEmitter<SidenavToggle>();
@@ -27,6 +29,15 @@ export class Sidenav implements OnInit {
     // só acessa o window se estiver no navegador
     if (isPlatformBrowser(this.platformId)) {
       this.screenWidth = window.innerWidth;
+    }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.screenWidth = window.innerWidth;
+    if (this.screenWidth <= 768) {
+      this.collapsed = false;
+      this.emitToggle();
     }
   }
 

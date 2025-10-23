@@ -1,9 +1,10 @@
 .sidenav {
     background: var(--cor-azul4);
     transition: all .5s ease;
-    position: fixed;
-    z-index: 1;
-    top: 0;
+    position: relative;
+    // position: fixed;
+    // z-index: 1;
+    // top: 0;
     width: 5rem;
     height: 100vh;
     box-shadow: 0.063rem 0 1.25rem var(--cor-azul1);
@@ -48,8 +49,9 @@
             width: 2rem;
             height: 2rem;
             border-radius: 50%;
-            // background-color: transparent;
+            background-color: transparent;
             border: none;
+            // color: #fff;
 
             .fa-times {
                 color: #fff;
@@ -63,6 +65,10 @@
 
 .sidenav-collapsed {
     width: 16.5625rem;
+    
+    .btn-close {
+        color: #f3f3f3;
+    }
 }
 
 .sidenav-nav {
