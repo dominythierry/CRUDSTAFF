@@ -27,7 +27,9 @@ export class RegistrarComponent {
   goToLogin() {
     window.location.href = '/login';
   }
-
+  goToReset() {
+    window.location.href = '/passwordreset';
+  }
   registrar() {
     if (this.senha !== this.confirmSenha) {
       this.mensagem = 'As senhas não coincidem!';
