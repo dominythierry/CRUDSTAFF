@@ -37,7 +37,7 @@
 
         .logo-text{
             margin-left: 1.5rem;
-            font-size: 24px;
+            font-size: 19px;
             font-weight: 700;
             color: #fff;
 
@@ -109,6 +109,13 @@
             .sidenav-link-text {
                 margin-left: 1.5rem;
             }
+
+            #sidenav-news-icon {
+                margin-left: 0.5rem;
+                font-size: 0.625rem;
+                justify-content: flex-end;
+                color: #fff;
+            }
         }
     }
 
@@ -118,10 +125,20 @@
             color: #000;
         }
     }
+
+    .lbl-sidenav {
+        margin-top: auto;
+        color: #f3f3f3a0;
+        font-size: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.05rem;
+        margin-bottom: 8rem;
+    }
 }
 
 .active {
-    background-color: #fff;
+
+    background-color: var(--cor-azul2);
 
     .sidenav-link-icon,
     .sidenav-link-text {

@@ -3,17 +3,23 @@ export const navbarData = [
     {
         routerLink: 'dashboard',
         icon: 'fa fa-home',
-        label: 'Visão Geral'
+        label: 'Geral'
     },
     {
         routerLink: 'veiculos-info',
-        icon: 'fa-solid fa-folder-open',
+        // icon: 'fa-solid fa-list',
+        icon: 'fa-solid fa-magnifying-glass',
         label: 'Veículos'
     },
+    // {
+    //     routerLink: 'veiculos-info',
+    //     icon: 'fa-solid fa-folder-open',
+    //     label: 'Veículos'
+    // },
     {
         routerLink: 'registro-saida-veiculos',
-        icon: 'fa-solid fa-list',
-        label: 'Saída de Veículos'
+        icon: 'fa-solid fa-check',
+        label: 'Liberações'
     },
     {
         routerLink: 'config',

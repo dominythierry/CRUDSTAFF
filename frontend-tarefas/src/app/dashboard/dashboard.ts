@@ -1,14 +1,19 @@
-// dashboard.ts
+// src/app/dashboard/dashboard.ts
+
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { BaseChartDirective } from 'ng2-charts';
+import { Chart, registerables, ChartConfiguration, ChartOptions } from 'chart.js';
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, BaseChartDirective],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.css']
 })
+
 export class Dashboard {
   // Dados simulados
   totalVeiculos: number = 1250;
@@ -37,4 +42,25 @@ export class Dashboard {
   getSaldoAno(): number {
     return this.estatisticasAno.reduce((acc, stat) => acc + (stat.entradas - stat.saidas), 0);
   }
+
+  // ---------- GRÁFICO ----------
+  public barChartData: ChartConfiguration<'bar'>['data'] = {
+    labels: this.estatisticasAno.map(e => e.mes),
+    datasets: [
+      { data: this.estatisticasAno.map(e => e.entradas), label: 'Entradas', backgroundColor: '#69ae52' },
+      { data: this.estatisticasAno.map(e => e.saidas), label: 'Saídas', backgroundColor: '#184267' }
+    ]
+  };
+
+  public barChartOptions: ChartOptions<'bar'> = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: {},
+      y: { beginAtZero: true }
+    },
+    plugins: {
+      legend: { position: 'bottom' }
+    }
+  };
 }

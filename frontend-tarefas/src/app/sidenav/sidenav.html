@@ -16,8 +16,29 @@
             >
                 <i class="sidenav-link-icon" [class]="data.icon"></i>
                 <span class="sidenav-link-text" *ngIf="collapsed">{{ data.label }}</span>
+                <span id="sidenav-news-icon" *ngIf="collapsed" class="fa-solid fa-circle"></span>
+                <!-- news-icon é a bolinha da lateral que deve aparecer quando houver novidades ou upgrades no componente -->
             </a>
         </li>
+
+        <!-- <div id="perfil">
+            <hr>
+            <div id="perfil-info">
+                <i class="fa-solid fa-user fa-2x" *ngIf="collapsed"></i>
+            </div> -->
+
+        <p class="lbl-sidenav" *ngIf="collapsed">Administração</p>
+
+        <li class="sidenav-nav-item" *ngIf="collapsed">
+            <a class="sidenav-nav-link" [routerLink]="'user-profile'"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+            >
+                <i class="sidenav-link-icon fa-solid fa-user"></i>
+                <span class="sidenav-link-text" *ngIf="collapsed">Perfil</span>
+            </a>
+        </li>
+
     </ul>
 </div>
  

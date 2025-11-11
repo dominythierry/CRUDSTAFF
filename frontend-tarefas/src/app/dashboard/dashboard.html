@@ -48,6 +48,8 @@
 
   <div class="chart-section">
     <h2>Estatísticas do Ano</h2>
+
+    <!-- Tabela -->
     <table class="stats-table">
       <thead>
         <tr>
@@ -66,5 +68,17 @@
         </tr>
       </tbody>
     </table>
+
+    <br>
+        <h2>Gráfico: Entradas e Saídas por Mês</h2>
+    <div class="chart-container">
+      <canvas baseChart
+          [data]="barChartData"
+          [options]="barChartOptions"
+          chartType="bar">
+      </canvas>
+    </div>
+
+
   </div>
 </div>
