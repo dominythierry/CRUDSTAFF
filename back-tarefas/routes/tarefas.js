@@ -6,6 +6,18 @@ const jwt = require("jsonwebtoken");
 const e = require("express");
 const nodemailer = require('nodemailer');
 const app = express();
+const crypto = require('crypto');
+
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "prfsenaiofc2@gmail.com",
+    pass: "vmuk hmwy tnho lnyv", // ✅ senha de app (ótimo!)
+  },
+});
+
+
 
 
 // GET - Listar todos os usuários
@@ -96,7 +108,49 @@ router.delete("/deletar", (req, res) => {
   });
 });
 
+router.post('/passwordreset', async (req, res) => {
+  const { email } = req.body; // ← aqui pegamos o email do body
 
+  const query = 'SELECT * FROM administradores_prf WHERE email = ?';
+  db.query(query, [email], async (err, rows) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: 'Erro no banco de dados.' });
+    }
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'E-mail não encontrado' });
+    }
+
+    // gera a nova senha
+    const novaSenha = crypto.randomBytes(4).toString('hex');
+    const saltRounds = 10;
+    const senhaHash = await bcrypt.hash(novaSenha, saltRounds);
+
+    // atualiza no banco
+    db.query('UPDATE administradores_prf SET senha = ? WHERE email = ?', [senhaHash, email], async (err) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Erro ao atualizar senha.' });
+      }
+
+      // envia o e-mail
+      try {
+        await transporter.sendMail({
+          from: '"Suporte" <prfsenaiofc2@outlook.com>',
+          to: email,
+          subject: 'Recuperação de senha',
+          text: `Sua nova senha é: ${novaSenha}`
+        });
+
+        res.json({ message: 'Nova senha enviada por e-mail.' });
+      } catch (errMail) {
+        console.error('Erro detalhado ao enviar e-mail:', errMail);
+        res.status(500).json({ error: 'Erro ao enviar o e-mail.' });
+      }
+    });
+  });
+});
 
 module.exports = router;
 

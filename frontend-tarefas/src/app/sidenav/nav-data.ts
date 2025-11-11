@@ -1,4 +1,3 @@
-
 export const navbarData = [
     {
         routerLink: 'dashboard',
