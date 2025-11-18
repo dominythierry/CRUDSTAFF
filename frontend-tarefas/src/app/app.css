@@ -1,3 +1,6 @@
+
+
+
 .layout {
   display: flex;
   flex-direction: row;
@@ -16,5 +19,5 @@ app-sidenav {
   transition: margin-left 0.4s ease;
   overflow-y: auto;
   background-color: #f9f9f9;
-  padding: 1rem;
+  padding: 0rem;
 }

@@ -9,6 +9,7 @@ const nodemailer = require('nodemailer');
 
 const app = express();
 const port = 3000;
+const SECRET_KEY = "781ecb5259a3dc9057b5332e57e72603d6bfe0fa";
 
 app.use(cors());
 app.use(express.json());

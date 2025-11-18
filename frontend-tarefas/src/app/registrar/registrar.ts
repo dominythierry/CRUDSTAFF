@@ -21,6 +21,12 @@ export class RegistrarComponent {
 
   constructor(private http: HttpClient) {}
 
+// ⭐️ NOVA FUNÇÃO: Chamada no evento 'input' do campo CPF
+onCpfChange() {
+  // Remove tudo que não for dígito e limita a 11 caracteres
+  this.cpf = this.cpf.replace(/\D/g, '').substring(0, 11);
+}
+
   redefinirsenha() {
     window.location.href = '/redefinirsenha';
   }
@@ -31,6 +37,15 @@ export class RegistrarComponent {
     window.location.href = '/passwordreset';
   }
   registrar() {
+
+      this.mensagem = '';
+
+    if (!this.nome || !this.cpf || !this.email || !this.senha || !this.confirmSenha) {
+            this.mensagem = 'Erro: Por favor, preencha todos os campos obrigatórios.';
+            console.log('Tentativa de registro falhou: campos incompletos');
+            return; // Interrompe a função se faltar algum campo
+        }
+
     if (this.senha !== this.confirmSenha) {
       this.mensagem = 'As senhas não coincidem!';
       return;

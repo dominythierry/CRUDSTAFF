@@ -26,9 +26,8 @@ export class LoginComponent implements OnInit {
 
 
   ngOnInit() {}
-
-  login() {
-    console.log('login() chamado'); // Teste no console
+login() {
+    console.log('login() chamado');
 
     if (this.loginForm.invalid) {
       console.log('Form inválido');
@@ -36,6 +35,7 @@ export class LoginComponent implements OnInit {
     }
 
     const { email, senha } = this.loginForm.value;
+    console.log('Enviando payload ->', { email, senha }); // <-- log do payload
 
     this.http.post('http://localhost:3000/tarefas/login', { email, senha })
       .subscribe({
@@ -46,7 +46,9 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/dashboard']);
         },
         error: (err) => {
-          console.error('Erro no login:', err);
+          console.error('Erro no login (frontend):', err);
+          // mostrar mensagem clara pro usuário
+          alert(err.error?.message || `Erro ${err.status}: ${err.statusText}`);
         }
       });
   }

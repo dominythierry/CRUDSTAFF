@@ -2,6 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
 @import '@angular/cdk/overlay-prebuilt.css';
 
+
+
 :root{
     --cor-laranja1: #ff8e25;
     --cor-laranja2: #e47814;
@@ -23,8 +25,16 @@
     box-sizing: border-box;
 }
 
-body {
-    position: relative;
-    font-family: 'Roboto', sans-serif;
 
+/* garante que o layout ocupe toda a largura/altura disponível */
+.layout {
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* permite que o conteúdo interno mantenha o gradiente atrás */
+.main-content {
+  background: transparent;
+  padding: 0;
 }

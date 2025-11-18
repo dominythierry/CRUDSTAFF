@@ -1,23 +1,23 @@
+* { box-sizing: border-box; }
+
 
 /* Fundo com degradê e imagem leve */
 .login-container {
-  margin: -10px;
-  height: 100vh;
+  margin: 0;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   background: linear-gradient(to bottom, var(--cor-azul4), rgba(0, 0, 0, 0.893));
   position: relative;
   overflow: hidden;
+  padding: 2rem;
 }
 
-/* Camada de imagem leve no fundo */
 .overlay {
   background: url('https://www.novaconcursos.com.br/portal/wp-content/uploads/2025/02/prf-scaled.webp') repeat; /* coloque uma imagem leve */
   background-position: center top;
-  filter: blur(200px);
   background-size: cover;
-  filter: blur(10000px);
   opacity: 0.08; /* bem suave para não poluir */
   position: absolute;
   top: 0;

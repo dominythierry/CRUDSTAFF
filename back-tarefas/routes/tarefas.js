@@ -17,7 +17,13 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+const SECRET_KEY = process.env.SECRET_KEY || '781ecb5259a3dc9057b5332e57e72603d6bfe0fa';
 
+const usuarios2 = [
+  { id: 1, email: "teste@gmail.com", senha: "12345", role: "admin"},
+  { id: 2, nome: "Usuario", senha: "botas", role: "user"}
+
+]; 
 
 
 // GET - Listar todos os usuários
@@ -49,7 +55,6 @@ router.post("/registrar", async (req, res) => {
   });
 });
 
-//requisitos de login
 router.post("/login", (req, res) => {
   const { email, senha } = req.body;
 
@@ -59,21 +64,30 @@ router.post("/login", (req, res) => {
       return res.status(500).json({ error: "Erro no banco de dados" });
     }
 
-    if (results.length === 0) {
+    if (!results || results.length === 0) {
       return res.status(401).json({ message: "Usuário não encontrado" });
     }
 
     const usuario = results[0];
-    
-    // compara senha enviada com o hash salvo no banco
-    const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
 
-    if (!senhaCorreta) {
-      return res.status(401).json({ message: "Senha inválida" });
+    try {
+      const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
+
+      if (!senhaCorreta) {
+        return res.status(401).json({ message: "Usuário ou senha inválidos" });
+      }
+
+      const token = jwt.sign({ id: usuario.id, nome: usuario.nome }, SECRET_KEY, { expiresIn: "48h" });
+
+      return res.json({
+        message: "Login bem-sucedido",
+        token,
+        usuario: { id: usuario.id, nome: usuario.nome, email: usuario.email }
+      });
+    } catch (errCompare) {
+      console.error("Erro ao comparar senha:", errCompare);
+      return res.status(500).json({ error: "Erro interno" });
     }
-
-    // se tudo ok
-    res.json({ message: "Login bem-sucedido", usuario: { id: usuario.id, nome: usuario.nome, email: usuario.email } });
   });
 });
 
