@@ -19,15 +19,5 @@ app-sidenav {
   transition: margin-left 0.4s ease;
   overflow-y: auto;
   background-color: #f9f9f9;
-<<<<<<< HEAD
   padding: 0rem;
-=======
-  margin-top: 10px;
-  /* padding: 1rem; */
-}
-
-footer {
-  width: 200px;
-  background-color: var(--cor-azul5);
->>>>>>> f3f8c95a8bbb51e22f9bfa2e5cbd6d151d430d59
 }
