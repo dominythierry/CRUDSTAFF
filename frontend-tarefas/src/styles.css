@@ -14,10 +14,13 @@
     --cor-azul2: #3a74a8;
     --cor-azul3: rgb(11, 95, 168);
     --cor-azul4: #06335a;
+    --cor-azul5: #184267;
     --cor-amarelo1: #e2c102;
     --cor-amarelo2: #c4a302;
+    --cor-verde1: #69ae52;
+    --cor-verde2: #4a8935;
+    --cor-verde3: #357517;
 }
-
 
 * {
     margin: 0;
