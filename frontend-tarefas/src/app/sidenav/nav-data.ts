@@ -16,6 +16,11 @@ export const navbarData = [
     //     label: 'Veículos'
     // },
     {
+        routerLink: 'registro-entrada',
+        icon: 'fa-solid fa-pen-clip',
+        label: 'Registros'
+    },
+    {
         routerLink: 'registro-saida-veiculos',
         icon: 'fa-solid fa-check',
         label: 'Liberações'

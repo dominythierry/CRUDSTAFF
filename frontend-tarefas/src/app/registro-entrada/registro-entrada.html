@@ -1,0 +1,46 @@
+<div class="container">
+
+  <h2>Registrar Novo Veículo</h2>
+
+  <form [formGroup]="formRegistro">
+
+    <div class="linha">
+      <label>Placa:</label>
+      <input type="text" formControlName="placa" placeholder="ABC1234">
+      <span *ngIf="enviado && formRegistro.controls['placa'].invalid" class="erro">
+        Informe uma placa válida.
+      </span>
+    </div>
+
+    <div class="linha">
+      <label>Marca:</label>
+      <input type="text" formControlName="marca">
+    </div>
+
+    <div class="linha">
+      <label>Modelo:</label>
+      <input type="text" formControlName="modelo">
+    </div>
+
+    <div class="linha">
+      <label>Cor:</label>
+      <input type="text" formControlName="cor">
+    </div>
+
+    <div class="linha">
+      <label>Ano:</label>
+      <input type="number" formControlName="ano">
+    </div>
+
+    <div class="linha">
+      <label>Motivo do Recolhimento:</label>
+      <textarea rows="3" formControlName="motivoRecolhimento"></textarea>
+    </div>
+
+    <button (click)="registrar()" [disabled]="loading">
+      {{ loading ? 'Registrando...' : 'Registrar Veículo' }}
+    </button>
+
+  </form>
+
+</div>
