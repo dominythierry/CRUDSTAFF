@@ -1,1 +1,40 @@
-<h1>Infos Veículos</h1>
+<div class="container">
+
+  <h1 class="title">Informações de Veículos</h1>
+
+  <!-- Barra de pesquisa -->
+  <div class="search-box">
+    <input
+      type="text"
+      placeholder="Buscar por placa, tipo ou status..."
+      [(ngModel)]="searchTerm"
+    >
+  </div>
+
+  <!-- Tabela -->
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Placa</th>
+          <th>Tipo</th>
+          <th>Status</th>
+          <th>Entrada</th>
+          <th>Saída</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let v of veiculosFiltrados">
+          <td>{{ v.placa }}</td>
+          <td>{{ v.tipo }}</td>
+          <td>{{ v.status }}</td>
+          <td>{{ v.dataEntrada | date:'dd/MM/yyyy' }}</td>
+          <td>
+            {{ v.dataSaida ? (v.dataSaida | date:'dd/MM/yyyy') : '—' }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
