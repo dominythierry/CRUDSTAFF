@@ -1,24 +1,27 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-registro-entrada',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './registro-entrada.html',
   styleUrls: ['./registro-entrada.css']
 })
 export class RegistroVeiculoComponent {
-
+  
   formRegistro!: FormGroup;
   enviado = false;
   loading = false;
 
   constructor(private fb: FormBuilder) {
     this.formRegistro = this.fb.group({
-      placa: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(7)]],
+      placa: ['', Validators.required],
       marca: ['', Validators.required],
       modelo: ['', Validators.required],
       cor: ['', Validators.required],
-      ano: ['', [Validators.required, Validators.min(1950), Validators.max(2050)]],
+      ano: ['', [Validators.required, Validators.min(1950)]],
       motivoRecolhimento: ['', Validators.required],
     });
   }
@@ -31,10 +34,10 @@ export class RegistroVeiculoComponent {
     this.loading = true;
 
     setTimeout(() => {
-      console.log('Novo veículo registrado:', this.formRegistro.value);
+      console.log(this.formRegistro.value);
       this.formRegistro.reset();
       this.enviado = false;
       this.loading = false;
-    }, 1800);
+    }, 1200);
   }
 }

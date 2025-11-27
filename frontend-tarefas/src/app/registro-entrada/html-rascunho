@@ -1,22 +1,16 @@
-<div class="entrada-container">
-    <h2>Registro de Novo Veículo</h2>
+<div class="body">
+    <h2>Registrar Novo Veículo</h2>
 
-        <div class="overlay"></div>
-        
-        <div class="entrada-card">
-      <button type="submit" class="btn-primary" form="register-form">Registrar Veículo</button>
-    </div>
+<div class="container">
 
-    <div class="entrada-card">
-        
-        <form [formGroup]="formRegistro">
+  <form [formGroup]="formRegistro">
 
     <div class="linha">
       <label>Placa:</label>
       <input type="text" formControlName="placa" placeholder="ABC1234">
-      <!-- <span *ngIf="enviado && formRegistro.controls['placa'].invalid" class="erro">
+      <span *ngIf="enviado && formRegistro.controls['placa'].invalid" class="erro">
         Informe uma placa válida.
-      </span> -->
+      </span>
     </div>
 
     <div class="linha">
@@ -49,5 +43,6 @@
     </button>
 
   </form>
-    </div>
+
+</div>
 </div>
