@@ -1,6 +1,7 @@
-<div class="container">
+<div class="body">
+    <h2>Registrar Novo Veículo</h2>
 
-  <h2>Registrar Novo Veículo</h2>
+<div class="container">
 
   <form [formGroup]="formRegistro">
 
@@ -34,7 +35,7 @@
 
     <div class="linha">
       <label>Motivo do Recolhimento:</label>
-      <textarea rows="3" formControlName="motivoRecolhimento"></textarea>
+      <textarea rows="3" formControlName="motivo"></textarea>
     </div>
 
     <button (click)="registrar()" [disabled]="loading">
@@ -43,4 +44,5 @@
 
   </form>
 
+</div>
 </div>
