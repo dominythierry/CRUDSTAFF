@@ -1,0 +1,11 @@
+<h2>Cadastrar Carro</h2>
+
+<form (ngSubmit)="salvar()">
+  <input placeholder="Marca" [(ngModel)]="carro.marca" name="marca">
+  <input placeholder="Modelo" [(ngModel)]="carro.modelo" name="modelo">
+  <input placeholder="Ano" type="number" [(ngModel)]="carro.ano" name="ano">
+  <input placeholder="Cor" [(ngModel)]="carro.cor" name="cor">
+  <input placeholder="Placa" [(ngModel)]="carro.placa" name="placa">
+
+  <button type="submit">Salvar</button>
+</form>

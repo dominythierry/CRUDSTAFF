@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+<<<<<<< HEAD
+=======
+import { CarrosService } from '../services/carros';
+>>>>>>> c5401c4b6a4c0539af4a3f36b36cecc4f3a509b7
 
 @Component({
   selector: 'app-registro-entrada',
@@ -15,14 +19,20 @@ export class RegistroVeiculoComponent {
   enviado = false;
   loading = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder
+    , private carrosService: CarrosService
+  ) {
     this.formRegistro = this.fb.group({
       placa: ['', Validators.required],
       marca: ['', Validators.required],
       modelo: ['', Validators.required],
       cor: ['', Validators.required],
       ano: ['', [Validators.required, Validators.min(1950)]],
+<<<<<<< HEAD
       motivoRecolhimento: ['', Validators.required],
+=======
+      motivo: ['', Validators.required],
+>>>>>>> c5401c4b6a4c0539af4a3f36b36cecc4f3a509b7
     });
   }
 

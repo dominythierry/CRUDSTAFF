@@ -10,9 +10,15 @@ import { Passwordreset } from './passwordreset/passwordreset';
 /*import { Redefinirsenha } from './redefinirsenha/redefinirsenha';*/
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
+import { CadastrarCarroComponent } from './pages/cadastrar-carro/cadastrar-carro';
+import { ListarCarrosComponent } from './pages/listar-carros/listar-carros';
+import { RegistroVeiculoComponent } from './registro-entrada/registro-entrada';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' }, // rota inicial
+    { path: 'listar-carros', component: ListarCarrosComponent },
+    { path: 'cadastrar-carro', component: CadastrarCarroComponent },
+    { path: 'registro-entrada', component: RegistroVeiculoComponent },
     { path: 'login', component: LoginComponent },
     { path: 'dashboard', component: Dashboard },
     { path: 'passwordreset', component: Passwordreset},
