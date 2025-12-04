@@ -12,7 +12,6 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CadastrarCarroComponent } from './pages/cadastrar-carro/cadastrar-carro';
 import { ListarCarrosComponent } from './pages/listar-carros/listar-carros';
-import { RegistroVeiculoComponent } from './registro-entrada/registro-entrada';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' }, // rota inicial
@@ -24,12 +23,10 @@ export const routes: Routes = [
     { path: 'passwordreset', component: Passwordreset},
     { path: 'registrar', component: RegistrarComponent},
     { path: 'veiculos-info', component: VeiculosInfo},
-    { path: 'registro-entrada', component: RegistroVeiculoComponent}, 
     { path: 'registro-saida-veiculos', component: RegistroSaidaVeiculos},
     { path: 'config', component: Config},
     { path: '**', redirectTo: 'login' },// rota coringa
 ];
-
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]

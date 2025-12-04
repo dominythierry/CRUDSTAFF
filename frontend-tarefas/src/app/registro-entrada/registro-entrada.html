@@ -1,61 +1,50 @@
-<<<<<<< HEAD
-<div class="entrada-container">
-    <h2>Registro de Novo Veículo</h2>
+<div class="entrada-container grid-layout">
+  <div class="overlay"></div>
 
-        <div class="overlay"></div>
-        
-        <div class="entrada-card">
-      <button type="submit" class="btn-primary" form="register-form">Registrar Veículo</button>
+  <div class="left-pane">
+    <div class="cta-box">
+      <h2>Registro de Novo Veículo</h2>
+      <div class="cta-card">
+        <button type="submit" class="btn-primary btn-large" form="register-form">{{ loading ? 'Registrando...' : 'Registrar Veículo' }}</button>
+      </div>
     </div>
-=======
-<div class="body">
-    <h2>Registrar Novo Veículo</h2>
+  </div>
 
-<div class="container">
->>>>>>> c5401c4b6a4c0539af4a3f36b36cecc4f3a509b7
-
+  <div class="right-pane">
     <div class="entrada-card">
-        
-        <form [formGroup]="formRegistro">
+      <form id="register-form" [formGroup]="formRegistro" (ngSubmit)="registrar()">
 
-    <div class="linha">
-      <label>Placa:</label>
-      <input type="text" formControlName="placa" placeholder="ABC1234">
-      <!-- <span *ngIf="enviado && formRegistro.controls['placa'].invalid" class="erro">
-        Informe uma placa válida.
-      </span> -->
+      <div class="linha">
+        <label for="placa">Placa:</label>
+        <input id="placa" type="text" formControlName="placa" placeholder="ABC1234">
+      </div>
+
+      <div class="linha">
+        <label for="marca">Marca:</label>
+        <input id="marca" type="text" formControlName="marca">
+      </div>
+
+      <div class="linha">
+        <label for="modelo">Modelo:</label>
+        <input id="modelo" type="text" formControlName="modelo">
+      </div>
+
+      <div class="linha">
+        <label for="cor">Cor:</label>
+        <input id="cor" type="text" formControlName="cor">
+      </div>
+
+      <div class="linha">
+        <label for="ano">Ano:</label>
+        <input id="ano" type="number" formControlName="ano">
+      </div>
+
+      <div class="linha">
+        <label for="motivoRecolhimento">Motivo do Recolhimento:</label>
+        <textarea id="motivoRecolhimento" rows="3" formControlName="motivoRecolhimento"></textarea>
+      </div>
+    </form>
     </div>
+  </div>
 
-    <div class="linha">
-      <label>Marca:</label>
-      <input type="text" formControlName="marca">
-    </div>
-
-    <div class="linha">
-      <label>Modelo:</label>
-      <input type="text" formControlName="modelo">
-    </div>
-
-    <div class="linha">
-      <label>Cor:</label>
-      <input type="text" formControlName="cor">
-    </div>
-
-    <div class="linha">
-      <label>Ano:</label>
-      <input type="number" formControlName="ano">
-    </div>
-
-    <div class="linha">
-      <label>Motivo do Recolhimento:</label>
-      <textarea rows="3" formControlName="motivo"></textarea>
-    </div>
-
-    <button (click)="registrar()" [disabled]="loading">
-      {{ loading ? 'Registrando...' : 'Registrar Veículo' }}
-    </button>
-
-  </form>
-    </div>
-</div>
 </div>

@@ -1,17 +1,18 @@
 * { box-sizing: border-box; }
 
-<<<<<<< HEAD
 
 .entrada-container {
   margin: 0;
-  height: 100%;
-  display: flex;
-  justify-content: center;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 520px;
   align-items: center;
-  background: linear-gradient(to bottom, var(--cor-azul4), rgba(0, 0, 0, 0.893));
+  justify-content: center;
+  padding: 2rem 3rem;
+  background: linear-gradient(to bottom, var(--cor-azul4), rgba(0, 0, 0, 0.75));
   position: relative;
   overflow: hidden;
-  gap: 3rem;
+  gap: 2.4rem;
   color: var(--cor-azul2);
 }
 
@@ -20,102 +21,134 @@
   background-position: center top;
   background-size: cover;
   opacity: 0.08; /* bem suave para não poluir */
-=======
-.body {
-  font-family: "Roboto", sans-serif;
-  background-image:
-    linear-gradient(to bottom, var(--cor-azul4), rgba(0, 0, 0, 0.627)),
-    /* url('https://temconcursos.com.br/wp-content/uploads/2024/11/PRF-Imagem-Portal-Gov-.jpg'); */
-    url('https://www.gov.br/prf/pt-br/noticias/estaduais/rio-de-janeiro/2024/abril/prf-recebe-40-novas-viaturas-para-reforcar-o-policiamento-nas-rodovias-federais-do-rj/00001.jpg');
-
-  background-position: center top;
-  background-size: cover;
->>>>>>> c5401c4b6a4c0539af4a3f36b36cecc4f3a509b7
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-<<<<<<< HEAD
   height: 100%;
+  pointer-events: none; /* permite cliques nos elementos acima */
 }
 
 /* Card central */
 .entrada-card {
   background: #ffffff;
-  padding: 2rem;
+  padding: 1.8rem;
   border-radius: 8px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
-  width: 700px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  width: 100%;
   text-align: center;
   position: relative;
-  z-index: 1;
-  border: 1px solid #dcdcdc;
-
-=======
-  /* height: 100%; */
-  color: var(--cor-azul1);
-}
-
-.container {
-  width: 450px;
-  padding: 20px;
-  border-radius: 8px;
-  background: #f8f8f8;
-  margin: auto;
-  margin-top: 30px;
-  border: 1px solid #dcdcdc;
-  height: 100%;
-  color: var(--cor-azul2);
->>>>>>> c5401c4b6a4c0539af4a3f36b36cecc4f3a509b7
+  z-index: 4;
+  border: 1px solid #e6e6e6;
 }
 
 h2 {
-  margin-top: 15px;
-  margin-bottom: 16px;
-  font-size: 30px;
+  text-align: center;
+  margin: 0 0 18px 0;
+  font-size: 28px;
   font-weight: 700;
-  margin-left: 30px;
+  color: #f3f7fb;
 }
 
 .linha {
   display: flex;
   flex-direction: column;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 }
 
 label {
   font-weight: 500;
   display: block;
   font-size: 0.9rem;
-  color: #06335A;
+  color: #000000;
   margin-bottom: 0.3rem;
 }
 
 input,
 textarea {
-  padding: 8px;
-  border: 1px solid #bfbfbf;
-  border-radius: 4px;
+  padding: 10px 12px;
+  border: 1px solid #dfdfdf;
+  border-radius: 6px;
   font-size: 15px;
 }
 
 button {
   width: 100%;
-  padding: 10px;
+  padding: 10px 14px;
   border: none;
-  background: #004aad;
+  background: #0B5FA8;
   color: white;
   font-size: 16px;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
 }
 
+.btn-large {
+  width: 380px;
+  max-width: 90%;
+  margin: 0 auto;
+  padding: 12px 18px;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(3,16,31,0.15);
+}
+
+.grid-layout .left-pane {
+  padding-left: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.2rem;
+}
+
+.grid-layout .right-pane {
+  display: flex;
+  justify-content: center;
+}
+
+.cta-card {
+  background: rgb(255, 255, 255);
+  display: flex;
+  padding: 0.9rem 1.6rem;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(3,16,31,0.12);
+  z-index: 4;
+}
+
+.cta-box {
+  background: #ffffff;
+  padding: 2rem 1.6rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(3,16,31,0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: stretch; 
+  z-index: 4;
+}
+
+.cta-box h2 {
+  color: #000000;
+  margin: 0;
+}
+
 button:disabled {
-  opacity: .5;
+  opacity: .6;
   cursor: default;
 }
 
 .erro {
   color: crimson;
   font-size: 13px;
+}
+
+@media (max-width: 920px) {
+  .entrada-container { grid-template-columns: 1fr; padding: 1.2rem; }
+  .grid-layout .left-pane { align-items: center; text-align: center; padding-left: 0; }
+  .btn-large { width: 320px; }
+}
+
+@media (max-width: 560px) {
+  .cta-card { padding: 0.8rem; }
+  .btn-large { width: 260px; }
+  .entrada-card { padding: 1rem; }
 }

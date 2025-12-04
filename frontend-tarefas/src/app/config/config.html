@@ -1,1 +1,16 @@
-<p>config works!</p>
+<div class="container-config">
+  <h2>Configurações da Conta</h2>
+
+  <form [formGroup]="form" (ngSubmit)="salvar()">
+
+    <label>Nome</label>
+    <input type="text" formControlName="nome" class="input" />
+
+    <label>Email</label>
+    <input type="email" formControlName="email" class="input" />
+
+    <label>Nova Senha (opcional)</label>
+    <input type="password" formControlName="senha" class="input" placeholder="••••••••" />
+
+    <button class="btn" type="submit" [disabled]="form.invalid">Salvar Alterações</button>
+  </form>

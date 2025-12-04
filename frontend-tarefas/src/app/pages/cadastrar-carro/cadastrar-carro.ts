@@ -17,7 +17,8 @@ export class CadastrarCarroComponent {
     modelo: '',
     ano: 0,
     cor: '',
-    placa: ''
+    placa: '',
+    motivo: ''
   };
 
   constructor(private carrosService: CarrosService) {}
@@ -25,7 +26,11 @@ export class CadastrarCarroComponent {
   salvar() {
     this.carrosService.cadastrarCarro(this.carro).subscribe(() => {
       alert('Carro cadastrado!');
-      this.carro = { marca: '', modelo: '', ano: 0, cor: '', placa: '' };
+      this.limpar();
     });
+  }
+
+  limpar() {
+    this.carro = { marca: '', modelo: '', ano: 0, cor: '', placa: '', motivo: '' };
   }
 }
