@@ -67,76 +67,67 @@ router.post("/registrar", async (req, res) => {
 
   try {
     // Verifica se o email já existe
-    const checkEmailSql = "SELECT * FROM administradores_prf WHERE email = ?";
-    db.query(checkEmailSql, [email], async (err, results) => {
-      if (err) {
-        console.error("Erro ao verificar email:", err);
-        return res.status(500).json({ erro: "Erro ao processar registro" });
-      }
-
-      if (results.length > 0) {
-        const usuario = results[0];
-        
-        // Verifica se foi rejeitado
-        if (usuario.status === 'rejeitado') {
-          return res.status(409).json({ 
-            erro: "Este email já foi registrado e rejeitado anteriormente. Entre em contato com o administrador.",
-            status: "rejeitado"
-          });
-        }
-        
-        // Verifica se está pendente
-        if (usuario.status === 'pendente') {
-          return res.status(409).json({ 
-            erro: "Este email já está aguardando aprovação do administrador.",
-            status: "pendente"
-          });
-        }
-        
-        // Já foi aprovado
+    const checkEmailSql = "SELECT * FROM administradores_prf WHERE email = $1";
+    const checkResult = await db.query(checkEmailSql, [email]);
+    
+    if (checkResult.rows.length > 0) {
+      const usuario = checkResult.rows[0];
+      
+      // Verifica se foi rejeitado
+      if (usuario.status === 'rejeitado') {
         return res.status(409).json({ 
-          erro: "E-mail já cadastrado",
-          status: usuario.status
+          erro: "Este email já foi registrado e rejeitado anteriormente. Entre em contato com o administrador.",
+          status: "rejeitado"
         });
       }
-
-      // Hash da senha e gera token de aprovação
-      const hash = await bcrypt.hash(senha, 10);
-      const tokenAprovacao = crypto.randomBytes(32).toString('hex');
-
-      // Insere usuário com status PENDENTE
-      const sql = `
-        INSERT INTO administradores_prf 
-        (nome, cpf, email, senha, status, token_aprovacao) 
-        VALUES (?, ?, ?, ?, 'pendente', ?)
-      `;
-
-      db.query(sql, [nome, cpf, email, hash, tokenAprovacao], async (err, result) => {
-        if (err) {
-          console.error("Erro ao registrar usuário:", err);
-          return res.status(500).json({ erro: "Erro ao registrar usuário" });
-        }
-
-        // Envia email ao administrador
-        try {
-          await enviarEmailAprovacao({ id: result.insertId, nome, cpf, email }, tokenAprovacao);
-          
-          res.status(201).json({ 
-            mensagem: "Registro enviado para aprovação! Você receberá um email quando seu acesso for liberado.",
-            status: "pendente"
-          });
-        } catch (emailError) {
-          console.error("Erro ao enviar email:", emailError);
-          // Mesmo com erro no email, o registro foi criado
-          res.status(201).json({ 
-            mensagem: "Usuário registrado, mas houve erro ao notificar o administrador.",
-            status: "pendente"
-          });
-        }
+      
+      // Verifica se está pendente
+      if (usuario.status === 'pendente') {
+        return res.status(409).json({ 
+          erro: "Este email já está aguardando aprovação do administrador.",
+          status: "pendente"
+        });
+      }
+      
+      // Já foi aprovado
+      return res.status(409).json({ 
+        erro: "E-mail já cadastrado",
+        status: usuario.status
       });
-    });
-  } catch (error) {
-    console.error("Erro no registro:", error);
+    }
+
+    // Hash da senha e gera token de aprovação
+    const hash = await bcrypt.hash(senha, 10);
+    const tokenAprovacao = crypto.randomBytes(32).toString('hex');
+
+    // Insere usuário com status PENDENTE
+    const sql = `
+      INSERT INTO administradores_prf 
+      (nome, cpf, email, senha, status, token_aprovacao) 
+      VALUES ($1, $2, $3, $4, 'pendente', $5)
+      RETURNING id
+    `;
+
+    const result = await db.query(sql, [nome, cpf, email, hash, tokenAprovacao]);
+
+    // Envia email ao administrador
+    try {
+      await enviarEmailAprovacao({ id: result.rows[0].id, nome, cpf, email }, tokenAprovacao);
+      
+      res.status(201).json({ 
+        mensagem: "Registro enviado para aprovação! Você receberá um email quando seu acesso for liberado.",
+        status: "pendente"
+      });
+    } catch (emailError) {
+      console.error("Erro ao enviar email:", emailError);
+      // Mesmo com erro no email, o registro foi criado
+      res.status(201).json({ 
+        mensagem: "Usuário registrado, mas houve erro ao notificar o administrador.",
+        status: "pendente"
+      });
+    }
+  } catch (err) {
+    console.error("Erro ao registrar:", err);
     res.status(500).json({ erro: "Erro ao processar registro" });
   }
 });
