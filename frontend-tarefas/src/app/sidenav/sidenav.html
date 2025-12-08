@@ -1,0 +1,42 @@
+<div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed' : ''">
+    <div class="logo-container">
+        <button class="logo" (click)="toggleCollapse()">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9XYK23nZ0mK4zlH2H9n2Mk7JD9wc_RpAwyQ&s" alt="Logo PRF" id="logo-sidenav">
+        </button>
+        <div class="logo-text" *ngIf="collapsed">Pátio Veícular</div>
+        <button class="btn-close" *ngIf="collapsed" (click)="closeSidenav()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+    <ul class="sidenav-nav">
+        <li class="sidenav-nav-item" *ngFor="let data of navData">
+            <a class="sidenav-nav-link" [routerLink]="data.routerLink"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+            >
+                <i class="sidenav-link-icon" [class]="data.icon"></i>
+                <span class="sidenav-link-text" *ngIf="collapsed">{{ data.label }}</span>
+                <!-- <span id="sidenav-news-icon" *ngIf="collapsed" class="fa-solid fa-circle"></span> -->
+                <!-- news-icon é a bolinha da lateral que deve aparecer quando houver novidades ou upgrades no componente -->
+            </a>
+        </li>
+
+        <p class="lbl-sidenav" *ngIf="collapsed">Administração</p>
+
+                <li class="sidenav-nav-item user-section" *ngIf="collapsed">
+                    <a class="sidenav-nav-link" [routerLink]="['/config']" routerLinkActive="active">
+                        <i class="sidenav-link-icon fa-solid fa-user"></i>
+                        <span class="sidenav-link-text" *ngIf="collapsed">Perfil</span>
+                    </a>
+                </li>
+                <!-- ITEM DE LOGOUT - fica logo abaixo do Perfil -->
+                <li class="sidenav-nav-item user-section" *ngIf="collapsed">
+                    <a class="sidenav-nav-link logout-link" (click)="logout()">
+                        <i class="sidenav-link-icon fa-solid fa-arrow-right-from-bracket"></i>
+                        <span class="sidenav-link-text" *ngIf="collapsed">Sair</span>
+                    </a>
+                </li>
+
+
+    </ul>
+</div>

@@ -1,0 +1,79 @@
+<div class="dashboard-container">
+
+  <h1 class="title">Dashboard - Pátio Veicular PRF</h1>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Carregando dados...</p>
+  </div>
+
+  <div *ngIf="!loading">
+    <!-- Cards superiores -->
+    <div class="cards-grid">
+    
+    <div class="card">
+      <h3>Total de Veículos</h3>
+      <p class="value">{{ totalVeiculos }}</p>
+    </div>
+
+    <div class="card">
+      <h3>Aguardando Liberação</h3>
+      <p class="value">{{ aguardandoLiberacao }}</p>
+    </div>
+
+    <div class="card">
+      <h3>Arrecadação Semanal</h3>
+      <p class="value">R$ {{ arrecadacaoSemanal | number:'1.2-2' }}</p>
+    </div>
+
+    <div class="card">
+      <h3>Arrecadação Mensal</h3>
+      <p class="value">R$ {{ arrecadacaoMensal | number:'1.2-2' }}</p>
+    </div>
+
+  </div>
+
+
+  <!-- Gráficos -->
+  <div class="charts-grid">
+    <div class="chart-card">
+      <h3>Distribuição</h3>
+      <canvas id="tipoChart"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <h3>Status dos Veículos</h3>
+      <canvas id="statusChart"></canvas>
+    </div>
+  </div>
+
+
+  <!-- Tabela -->
+  <div class="table-container">
+    <h3>Últimos Veículos Adicionados</h3>
+    <div class="table-wrapper">
+      <table class="veiculos-table">
+        <thead>
+          <tr>
+            <th>Placa</th>
+            <th>Tipo</th>
+            <th>Motivo</th>
+            <th>Data Entrada</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let v of ultimosVeiculos">
+            <td>{{ v.placa }}</td>
+            <td>{{ v.tipo }}</td>
+            <td>{{ v.status }}</td>
+            <td>{{ v.data | date:'dd/MM/yyyy' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  </div> <!-- Fecha ngIf="!loading" -->
+
+</div>

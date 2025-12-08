@@ -1,0 +1,23 @@
+
+
+
+.layout {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  overflow: hidden;
+}
+
+app-sidenav {
+  position: relative; /* impede de cobrir o conteúdo */
+  height: 100%;
+  transition: width 0.4s ease;
+}
+
+.main-content {
+  flex-grow: 1;
+  transition: margin-left 0.4s ease;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+  padding: 0rem;
+}

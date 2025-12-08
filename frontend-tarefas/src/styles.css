@@ -1,0 +1,42 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+@import '@angular/cdk/overlay-prebuilt.css';
+
+
+
+:root{
+    --cor-laranja1: #ff8e25;
+    --cor-laranja2: #e47814;
+    --cor-laranja3: #cc6504;
+    --cor-laranja4: #ab5606;
+    --cor-laranja5: #884200;
+    --cor-azul1: #82c3d5;
+    --cor-azul2: #3a74a8;
+    --cor-azul3: rgb(11, 95, 168);
+    --cor-azul4: #06335a;
+    --cor-amarelo1: #e2c102;
+    --cor-amarelo2: #c4a302;
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* garante que o layout ocupe toda a largura/altura disponível */
+.layout {
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* permite que o conteúdo interno mantenha o gradiente atrás */
+.main-content {
+  background: transparent;
+  padding: 0;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

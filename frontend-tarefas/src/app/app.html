@@ -1,0 +1,17 @@
+<div class="layout">
+  <!-- Sidenav só aparece se mostrarSidenav for true -->
+  <app-sidenav 
+    *ngIf="mostrarSidenav"
+    (onToggleSideNav)="onToggleSideNav($event)"
+  ></app-sidenav>
+
+  <app-body
+    class="main-content"
+    [collapsed]="mostrarSidenav ? isSidenavCollapsed : false"
+    [screenWidth]="screenWidth"
+  ></app-body>
+
+  <!-- <footer>
+    <p>© 2024 Polícia Rodoviária Federal - Todos os direitos reservados.</p>
+  </footer> -->
+</div>

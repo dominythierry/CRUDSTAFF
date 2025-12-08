@@ -1,0 +1,116 @@
+<!-- Modal de Sucesso -->
+<div class="modal-overlay" *ngIf="showSuccessModal">
+  <div class="modal-content success">
+    <div class="modal-icon">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+        <circle cx="40" cy="40" r="38" fill="#4CAF50" stroke="#fff" stroke-width="4"/>
+        <path d="M25 40 L35 50 L55 30" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+    </div>
+    <h2>Veículo Registrado!</h2>
+    <p>O veículo foi registrado com sucesso no sistema.</p>
+    <button class="btn-modal success" (click)="closeSuccessModal()">OK</button>
+  </div>
+</div>
+
+<!-- Modal de Erro -->
+<div class="modal-overlay" *ngIf="showErrorModal">
+  <div class="modal-content error">
+    <div class="modal-icon">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+        <circle cx="40" cy="40" r="38" fill="#dc3545" stroke="#fff" stroke-width="4"/>
+        <path d="M25 25 L55 55 M55 25 L25 55" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <h2>Erro ao Registrar</h2>
+    <p>{{ errorMessage }}</p>
+    <button class="btn-modal error" (click)="closeErrorModal()">Fechar</button>
+  </div>
+</div>
+
+<!-- Modal de Validação (Campos Faltantes) -->
+<div class="modal-overlay" *ngIf="showValidationModal">
+  <div class="modal-content warning">
+    <div class="modal-icon">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+        <circle cx="40" cy="40" r="38" fill="#ffc107" stroke="#fff" stroke-width="4"/>
+        <path d="M40 20 L40 50 M40 60 L40 65" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <h2>Campos Obrigatórios</h2>
+    <p>Por favor, preencha todos os campos obrigatórios antes de continuar.</p>
+    <button class="btn-modal warning" (click)="closeValidationModal()">Entendi</button>
+  </div>
+</div>
+
+<div class="entrada-container grid-layout">
+  <div class="overlay"></div>
+
+  <div class="left-pane">
+    <div class="cta-box">
+      <h2>Registro de Novo Veículo</h2>
+      <div class="cta-card">
+        <button type="submit" class="btn-primary btn-large" form="register-form">{{ loading ? 'Registrando...' : 'Registrar Veículo' }}</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="right-pane">
+    <div class="entrada-card">
+      <form id="register-form" [formGroup]="formRegistro" (ngSubmit)="registrar()">
+
+        <!-- PLACA -->
+        <div class="linha">
+          <label for="placa">Placa:</label>
+          <input 
+            id="placa" 
+            type="text" 
+            formControlName="placa" 
+            placeholder="ABC1234" 
+            maxlength="8"
+            (input)="formatarPlaca($event)"
+            style="text-transform: uppercase;">
+        </div>
+
+      <div class="linha">
+        <label for="marca">Marca:</label>
+        <input id="marca" type="text" formControlName="marca">
+      </div>
+
+      <div class="linha">
+        <label for="modelo">Modelo:</label>
+        <input id="modelo" type="text" formControlName="modelo">
+      </div>
+
+        <!-- COR -->
+        <div class="linha">
+          <label for="cor">Cor:</label>
+          <input 
+            id="cor" 
+            type="text" 
+            formControlName="cor"
+            (input)="apenasLetras($event)">
+        </div>
+
+        <!-- ANO -->
+        <div class="linha">
+          <label for="ano">Ano:</label>
+          <input 
+            id="ano" 
+            type="text" 
+            inputmode="numeric"
+            formControlName="ano" 
+            maxlength="4"
+            (input)="apenasNumeros($event)">
+        </div>
+
+        
+      <div class="linha">
+        <label for="motivoRecolhimento">Motivo do Recolhimento:</label>
+        <textarea id="motivoRecolhimento" rows="3" formControlName="motivoRecolhimento"></textarea>
+      </div>
+    </form>
+    </div>
+  </div>
+
+</div>

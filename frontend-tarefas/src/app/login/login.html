@@ -1,0 +1,89 @@
+
+<div class="login-container">
+  <div class="overlay"></div> <!-- camada para imagem leve no fundo -->
+
+  <!-- Modal de Sucesso -->
+  <div class="success-modal" *ngIf="showSuccessModal">
+    <div class="modal-overlay" (click)="closeSuccessModal()"></div>
+    <div class="modal-content success">
+      <div class="modal-icon">
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+          <circle cx="40" cy="40" r="38" fill="#4CAF50" stroke="#fff" stroke-width="4"/>
+          <path d="M25 40 L35 50 L55 30" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </div>
+      <h2>Login Realizado!</h2>
+      <p>Bem-vindo de volta ao sistema.</p>
+      <button class="btn-modal success" (click)="closeSuccessModal()">
+        Ir para Dashboard
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal de Erro -->
+  <div class="error-modal" *ngIf="showErrorModal">
+    <div class="modal-overlay" (click)="closeErrorModal()"></div>
+    <div class="modal-content error">
+      <div class="modal-icon">
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+          <circle cx="40" cy="40" r="38" fill="#ffc107" stroke="#fff" stroke-width="4"/>
+          <path d="M40 20 L40 50 M40 60 L40 65" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h2>Erro no Login</h2>
+      <p>{{ errorMessage }}</p>
+      <button class="btn-modal error" (click)="closeErrorModal()">
+        Tentar Novamente
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal de Registro Rejeitado -->
+  <div class="rejected-modal" *ngIf="showRejectedModal">
+    <div class="modal-overlay" (click)="closeRejectedModal()"></div>
+    <div class="modal-content rejected">
+      <div class="modal-icon rejected">
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+          <circle cx="40" cy="40" r="38" fill="#dc3545" stroke="#fff" stroke-width="4"/>
+          <path d="M25 25 L55 55 M55 25 L25 55" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h2>Registro Rejeitado</h2>
+      <p>{{ rejectedMessage }}</p>
+      <p class="modal-subtitle">Entre em contato com o administrador para mais informações.</p>
+      <button class="btn-modal rejected" (click)="closeRejectedModal()">
+        Fechar
+      </button>
+    </div>
+  </div>
+
+  <div class="login-card">
+    <img src="https://www.gov.br/prf/pt-br/noticias/estaduais/espirito-santo/2025/agosto/prf-lanca-campanha-nacional-para-divulgar-o-sistema-sinal-2013-desaparecidos/brasao_prf.png" alt="Logo PRF" class="logo" />
+    <h1>Entrar</h1>
+
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input id="email" type="text" formControlName="email" placeholder="Digite seu email" />
+      </div>
+
+      <div class="input-group">
+        <label for="senha">Senha</label>
+        <input id="senha" formControlName="senha" type="password" placeholder="Digite sua senha" />
+      </div>
+
+      <button type="submit" class="btn-primary">Login</button>
+    </form>
+
+  <p class="register">
+  Não possui conta?
+  <a (click)="goToRegistrar()">Registrar</a>
+</p>
+  </div>
+
+  <div id="autor">
+    <p id="copy">&copy; 2025 DS2B TCC</p>
+    <p id="copy2">Todos os direitos reservados.</p>
+  </div>
+
+</div>

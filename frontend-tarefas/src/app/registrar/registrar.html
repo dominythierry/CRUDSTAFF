@@ -1,0 +1,184 @@
+<div class="login-container">
+  
+    <div class="overlay"></div>
+
+    <!-- Modal de Sucesso -->
+    <div class="success-modal" *ngIf="showSuccessModal">
+      <div class="modal-overlay" (click)="closeModalAndGoToLogin()"></div>
+      <div class="modal-content">
+        <div class="modal-icon">
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+            <circle cx="40" cy="40" r="38" fill="#4CAF50" stroke="#fff" stroke-width="4"/>
+            <path d="M25 40 L35 50 L55 30" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </div>
+        <h2>Solicitação Enviada!</h2>
+        <p>Seu pedido de registro foi enviado ao administrador.</p>
+        <p class="modal-subtitle">Você receberá um e-mail quando sua conta for aprovada.</p>
+        <button class="btn-modal" (click)="closeModalAndGoToLogin()">
+          Ir para Login
+        </button>
+      </div>
+    </div>
+
+    <!-- Modal de Rejeição -->
+    <div class="rejected-modal" *ngIf="showRejectedModal">
+      <div class="modal-overlay" (click)="closeRejectedModal()"></div>
+      <div class="modal-content rejected">
+        <div class="modal-icon rejected">
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+            <circle cx="40" cy="40" r="38" fill="#dc3545" stroke="#fff" stroke-width="4"/>
+            <path d="M25 25 L55 55 M55 25 L25 55" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h2>Registro Rejeitado</h2>
+        <p>{{ rejectedMessage }}</p>
+        <p class="modal-subtitle">Entre em contato com o administrador para mais informações.</p>
+        <button class="btn-modal-rejected" (click)="closeRejectedModal()">
+          Fechar
+        </button>
+      </div>
+    </div>
+
+    <div class="login-card">
+      <img src="https://www.gov.br/prf/pt-br/noticias/estaduais/distrito-federal/2023/outubro/nota-de-esclarecimento-superintendencia-da-policia-rooviaria-federal-no-distrito-federal/prf.png" alt="Logo PRF" class="logo" />
+      <button type="submit" class="btn-primary" form="register-form">Registrar e Entrar</button>
+    </div>
+
+    <div class="login-card">
+        <div *ngIf="mensagem" class="alert-error">
+            {{ mensagem }}
+        </div>
+        
+        <form id="register-form" (ngSubmit)="registrar()">
+            <div class="input-group">
+                <label for="nome">Nome completo</label>
+                <input id="nome" type="text" [(ngModel)]="nome" name="nome" placeholder="Digite seu nome" required />
+            </div>
+
+            <div class="input-group">
+                <label for="cpf">CPF</label>
+                  <input 
+                  id="cpf" 
+                  type="text" 
+                  [(ngModel)]="cpf" 
+                  name="cpf" 
+                  placeholder="000.000.000-00" 
+                  required 
+                  (input)="onCpfChange()"
+                  (keypress)="onCpfKeyPress($event)"
+                  maxlength="14"
+                />
+            </div>
+            
+<div class="input-group">
+  <label for="email">E-mail</label>
+  <input 
+    id="email" 
+    type="email" 
+    [(ngModel)]="email" 
+    name="email" 
+    placeholder="Digite seu email" 
+    required
+    #emailControl="ngModel" 
+  />
+
+  <div class="error-message">
+    <div *ngIf="emailControl.invalid && (emailControl.dirty || emailControl.touched)">
+      
+      <div *ngIf="emailControl.errors?.['required']">
+        O E-mail é obrigatório.
+      </div>
+      
+      <div *ngIf="emailControl.errors?.['email'] && !emailControl.errors?.['required']">
+        Insira um formato de E-mail válido (ex: nome@dominio.com).
+      </div>
+
+    </div>
+  </div>
+</div>
+            
+            <div class="input-group">
+                <label for="senha">Criar senha</label>
+                <div class="password-wrapper">
+                  <input 
+                    id="senha" 
+                    [type]="showPassword ? 'text' : 'password'" 
+                    [(ngModel)]="senha" 
+                    name="senha" 
+                    placeholder="Digite sua senha" 
+                    required 
+                  />
+                  <button 
+                    type="button" 
+                    class="toggle-password" 
+                    (click)="togglePasswordVisibility()"
+                    [attr.aria-label]="showPassword ? 'Ocultar senha' : 'Mostrar senha'"
+                  >
+                    <svg *ngIf="!showPassword" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                    <svg *ngIf="showPassword" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                      <line x1="1" y1="1" x2="23" y2="23"></line>
+                    </svg>
+                  </button>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="confirmSenha">Confirmar senha</label>
+                <div class="password-wrapper">
+                  <input 
+                    id="confirmSenha" 
+                    [type]="showConfirmPassword ? 'text' : 'password'" 
+                    [(ngModel)]="confirmSenha" 
+                    name="confirmSenha" 
+                    placeholder="Confirme sua senha" 
+                    required 
+                  />
+                  <button 
+                    type="button" 
+                    class="toggle-password" 
+                    (click)="toggleConfirmPasswordVisibility()"
+                    [attr.aria-label]="showConfirmPassword ? 'Ocultar senha' : 'Mostrar senha'"
+                  >
+                    <svg *ngIf="!showConfirmPassword" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                    <svg *ngIf="showConfirmPassword" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                      <line x1="1" y1="1" x2="23" y2="23"></line>
+                    </svg>
+                  </button>
+                </div>
+                
+                <!-- Indicador de senhas coincidentes -->
+                <div class="password-match-indicator" *ngIf="confirmSenha">
+                  <div class="match-message success" *ngIf="senhasCoinciden">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M20 6L9 17l-5-5"></path>
+                    </svg>
+                    <span>As senhas coincidem</span>
+                  </div>
+                  <div class="match-message error" *ngIf="senhasNaoCoinciden">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M18 6L6 18M6 6l12 12"></path>
+                    </svg>
+                    <span>As senhas não coincidem</span>
+                  </div>
+                </div>
+            </div>
+        </form>
+
+        <p class="register">
+            Já possui uma conta?
+            <a (click)="goToLogin()">Login</a>
+        </p>
+        <p class="register">
+            <a (click)="goToReset()"> Redefinir Senha?</a>
+        </p>
+    </div>
+</div>

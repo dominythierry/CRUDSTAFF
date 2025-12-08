@@ -1,0 +1,374 @@
+.sidenav {
+    background: var(--cor-azul4);
+    transition: all .5s ease;
+    position: relative;
+    // position: fixed;
+    // z-index: 1;
+    // top: 0;
+    width: 5rem;
+    height: 100vh;
+    box-shadow: 0.063rem 0 1.25rem var(--cor-azul1);
+
+    .logo-container {
+
+        display: flex;
+        align-items: center;
+        padding: 0.93rem 0.938rem 0.938rem;
+        // width: 100%;
+
+        .logo{
+            background: #fff;
+            text-align: center;
+            width: 3.5rem;
+            min-width: 3.5rem;
+            height: 3.5rem;
+            // border-radius: 0.313rem;
+            padding: 0.313rem;
+            font-size: 24px;
+            font-weight: 900;
+            cursor: pointer;
+            border: none;
+        }
+
+        #logo-sidenav {
+            width: 3rem;
+        }
+
+
+        .logo-text{
+            margin-left: 1.5rem;
+            font-size: 19px;
+            font-weight: 700;
+            color: #fff;
+
+        }
+
+        .btn-close{
+            margin-left: auto;
+            cursor: pointer;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            background-color: transparent;
+            border: none;
+            // color: #fff;
+
+            .fa-times {
+                color: #fff;
+                font-size: 24px;
+            }
+ 
+        }
+
+    }
+}
+
+.sidenav-collapsed {
+    width: 16.5625rem;
+    
+    .btn-close {
+        color: #f3f3f3;
+    }
+}
+
+.sidenav-nav {
+    list-style: none;
+    padding: 0.938rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: calc(100% - 3.65rem);
+    cursor: pointer;
+
+    justify-content: flex-start;   /* itens do menu no topo */
+    row-gap: 0.625rem;
+
+    .sidenav-nav-item {
+        width: 100%;
+        margin-bottom: 0.625rem;
+
+        .sidenav-nav-link {
+            display: flex;
+            align-items: center;
+            height: 3rem;
+            text-decoration: none;
+            border-radius: 0.625rem;
+            color: #f3f3f3;
+            transition: all .3s ease;
+
+            &:hover {
+                background-color: var(--cor-azul3);
+            }
+
+            .sidenav-link-icon {
+                font-size: 22px;
+                width: 2rem;
+                min-width: 2rem;
+                margin: 0 0.5rem;
+                text-align: center;
+              }
+
+            .sidenav-link-text {
+                margin-left: 1.5rem;
+            }
+
+            #sidenav-news-icon {
+                margin-left: 0.5rem;
+                font-size: 0.625rem;
+                justify-content: flex-end;
+                color: #fff;
+            }
+        }
+    }
+
+    .sidenav-nav-item:hover {
+        .sidenav-nav-link {
+            background-color: #fff;
+            color: #000;
+        }
+    }
+
+    .lbl-sidenav {
+    margin-top: auto;
+    color: #f3f3f3a0;
+    font-size: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.05rem;
+    margin-bottom: 1rem;           /* ← era 8rem, estava empurrando tudo pra baixo! */
+    padding: 0 1rem;
+}
+}
+
+.sidenav-nav-item.user-section {
+    margin-top: 0 !important;
+    margin-bottom: 0.5rem;
+    width: 100%;            /* ← empurra pro fundo */
+}
+
+.sidenav-nav-link.logout-link, .sidenav-nav-link[routerLink="/config"]{
+  color: #e74c3c;
+
+  &:hover {
+    background: rgba(231, 76, 60, 0.15);
+    color: #c0392b;
+  }
+
+  .sidenav-link-icon {
+    color: #e74c3c;
+  }
+}
+
+
+.active {
+
+    background-color: var(--cor-azul2);
+
+    .sidenav-link-icon,
+    .sidenav-link-text {
+        color: #000;
+
+    }
+}
+
+/* ========== RESPONSIVIDADE MOBILE ========== */
+
+@media (max-width: 768px) {
+    .sidenav {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 280px;
+        height: 100vh;
+        z-index: 1000;
+        transition: left 0.3s ease;
+        box-shadow: none;
+        background: linear-gradient(180deg, #1976D2 0%, #1565C0 100%);
+
+        /* Quando collapsed = true, mostra o menu */
+        &.sidenav-collapsed {
+            left: 0;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+        }
+    }
+
+    /* Logo fica sempre visível quando menu fechado */
+    .sidenav:not(.sidenav-collapsed) {
+        width: 4rem;
+        left: 0 !important;
+        background: transparent;
+        box-shadow: none;
+
+        .logo-container {
+            padding: 1rem 0.5rem !important;
+            border-bottom: none;
+            justify-content: center;
+
+            .logo {
+                background: #1976D2 !important;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+            }
+
+            .logo img {
+                display: none;
+            }
+
+            .logo::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 22px;
+                height: 2px;
+                background: white;
+                box-shadow: 0 -7px 0 white, 0 7px 0 white;
+            }
+
+            .logo-text,
+            .btn-close {
+                display: none !important;
+            }
+        }
+
+        .sidenav-nav {
+            display: none;
+        }
+    }
+
+    .logo-container {
+        padding: 1.5rem 1rem !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+        .logo {
+            background: rgba(255, 255, 255, 0.95) !important;
+            border-radius: 12px !important;
+        }
+
+        .logo-text {
+            margin-left: 1rem !important;
+            font-size: 18px !important;
+            font-weight: 700 !important;
+        }
+
+        .btn-close {
+            width: 2.5rem !important;
+            height: 2.5rem !important;
+            background: rgba(255, 255, 255, 0.1) !important;
+            border-radius: 50% !important;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.2) !important;
+            }
+
+            .fa-times {
+                font-size: 20px !important;
+            }
+        }
+    }
+
+    .sidenav-nav {
+        padding: 1rem !important;
+
+        .sidenav-nav-item {
+            margin-bottom: 0.5rem !important;
+
+            .sidenav-nav-link {
+                height: 3.5rem !important;
+                padding: 0 1rem !important;
+                border-radius: 12px !important;
+                background: rgba(255, 255, 255, 0.05);
+                backdrop-filter: blur(10px);
+
+                &:hover {
+                    background: rgba(255, 255, 255, 0.15) !important;
+                    transform: translateX(5px);
+                }
+
+                .sidenav-link-icon {
+                    font-size: 20px !important;
+                    width: 2rem !important;
+                    margin: 0 0.8rem 0 0 !important;
+                }
+
+                .sidenav-link-text {
+                    margin-left: 0 !important;
+                    font-size: 15px !important;
+                }
+            }
+        }
+
+        .sidenav-nav-item:hover {
+            .sidenav-nav-link {
+                background: rgba(255, 255, 255, 0.2) !important;
+                color: #fff !important;
+            }
+        }
+
+        .lbl-sidenav {
+            font-size: 10px !important;
+            margin-top: 1rem !important;
+            margin-bottom: 0.5rem !important;
+            color: rgba(255, 255, 255, 0.6) !important;
+            padding: 0 1rem !important;
+        }
+    }
+
+    .sidenav-nav-link.logout-link,
+    .sidenav-nav-link[routerLink="/config"] {
+        background: rgba(231, 76, 60, 0.15) !important;
+        color: #ffcdd2 !important;
+
+        &:hover {
+            background: rgba(231, 76, 60, 0.25) !important;
+            color: #fff !important;
+        }
+
+        .sidenav-link-icon {
+            color: #ffcdd2 !important;
+        }
+    }
+
+    .active {
+        background: rgba(255, 255, 255, 0.25) !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+        .sidenav-link-icon,
+        .sidenav-link-text {
+            color: #fff !important;
+            font-weight: 600;
+        }
+    }
+
+    /* Overlay quando menu aberto */
+    .sidenav-collapsed::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 280px;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: -1;
+        backdrop-filter: blur(2px);
+    }
+}
+
+@media (max-width: 480px) {
+    .sidenav {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .sidenav-collapsed::before {
+        left: 320px;
+    }
+}

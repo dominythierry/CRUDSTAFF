@@ -1,0 +1,161 @@
+<div class="container-config">
+  <h2>Configurações da Conta</h2>
+
+  <!-- Mensagens de feedback -->
+  <div *ngIf="mensagemSucesso" class="alert alert-success">
+    {{ mensagemSucesso }}
+  </div>
+
+  <div *ngIf="mensagemErro" class="alert alert-error">
+    {{ mensagemErro }}
+  </div>
+
+  <!-- Loading spinner -->
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Carregando...</p>
+  </div>
+
+  <!-- Seção: Dados Pessoais -->
+  <div class="secao" *ngIf="!loading">
+    <h3>Dados Pessoais</h3>
+    <form [formGroup]="formDados" (ngSubmit)="salvarDados()">
+
+      <label>Nome *</label>
+      <input 
+        type="text" 
+        formControlName="nome" 
+        class="input" 
+        placeholder="Seu nome completo"
+      />
+      <div *ngIf="formDados.get('nome')?.invalid && formDados.get('nome')?.touched" class="erro-validacao">
+        Nome é obrigatório (mínimo 3 caracteres)
+      </div>
+
+      <label>Email *</label>
+      <input 
+        type="email" 
+        formControlName="email" 
+        class="input"
+        placeholder="seuemail@exemplo.com"
+      />
+      <div *ngIf="formDados.get('email')?.invalid && formDados.get('email')?.touched" class="erro-validacao">
+        Email inválido
+      </div>
+
+      <label>Telefone</label>
+      <input 
+        type="text" 
+        formControlName="telefone" 
+        class="input"
+        placeholder="(00) 00000-0000"
+        (input)="aplicarMascaraTelefone($event)"
+        maxlength="15"
+      />
+
+      <label>Endereço</label>
+      <input 
+        type="text" 
+        formControlName="endereco" 
+        class="input"
+        placeholder="Rua, número, complemento"
+      />
+
+      <div class="row">
+        <div class="col">
+          <label>Cidade</label>
+          <input 
+            type="text" 
+            formControlName="cidade" 
+            class="input"
+            placeholder="Sua cidade"
+          />
+        </div>
+        <div class="col-small">
+          <label>Estado</label>
+          <input 
+            type="text" 
+            formControlName="estado" 
+            class="input"
+            placeholder="UF"
+            maxlength="2"
+            style="text-transform: uppercase;"
+          />
+        </div>
+      </div>
+
+      <label>CEP</label>
+      <input 
+        type="text" 
+        formControlName="cep" 
+        class="input"
+        placeholder="00000-000"
+        (input)="aplicarMascaraCep($event)"
+        maxlength="9"
+      />
+
+      <button 
+        class="btn btn-primary" 
+        type="submit" 
+        [disabled]="formDados.invalid || loading"
+      >
+        {{ loading ? 'Salvando...' : 'Salvar Dados' }}
+      </button>
+    </form>
+  </div>
+
+  <!-- Seção: Alterar Senha -->
+  <div class="secao" *ngIf="!loading">
+    <h3>Alterar Senha</h3>
+    <form [formGroup]="formSenha" (ngSubmit)="alterarSenha()">
+
+      <label>Senha Atual *</label>
+      <input 
+        [type]="mostrarSenha ? 'text' : 'password'" 
+        formControlName="senhaAtual" 
+        class="input"
+        placeholder="••••••••"
+      />
+
+      <label>Nova Senha *</label>
+      <input 
+        [type]="mostrarSenha ? 'text' : 'password'" 
+        formControlName="novaSenha" 
+        class="input"
+        placeholder="••••••••"
+      />
+      <div *ngIf="formSenha.get('novaSenha')?.invalid && formSenha.get('novaSenha')?.touched" class="erro-validacao">
+        A senha deve ter no mínimo 6 caracteres
+      </div>
+
+      <label>Confirmar Nova Senha *</label>
+      <input 
+        [type]="mostrarSenha ? 'text' : 'password'" 
+        formControlName="confirmarSenha" 
+        class="input"
+        placeholder="••••••••"
+      />
+      <div *ngIf="formSenha.errors?.['senhasNaoCoincidem'] && formSenha.get('confirmarSenha')?.touched" class="erro-validacao">
+        As senhas não coincidem
+      </div>
+
+      <div class="checkbox-container">
+        <input 
+          type="checkbox" 
+          id="mostrarSenha" 
+          (change)="toggleMostrarSenha()"
+        />
+        <label for="mostrarSenha">Mostrar senhas</label>
+      </div>
+
+      <button 
+        class="btn btn-secondary" 
+        type="submit" 
+        [disabled]="formSenha.invalid || loading"
+      >
+        {{ loading ? 'Alterando...' : 'Alterar Senha' }}
+      </button>
+    </form>
+  </div>
+
+</div>

@@ -1,0 +1,23 @@
+<h2>Carros Cadastrados</h2>
+
+<table border="1">
+  <tr>
+    <th>Marca</th>
+    <th>Modelo</th>
+    <th>Ano</th>
+    <th>Cor</th>
+    <th>Placa</th>
+    <th>Ações</th>
+  </tr>
+
+  <tr *ngFor="let c of carros">
+    <td>{{ c.marca }}</td>
+    <td>{{ c.modelo }}</td>
+    <td>{{ c.ano }}</td>
+    <td>{{ c.cor }}</td>
+    <td>{{ c.placa }}</td>
+    <td>
+      <button (click)="excluir(c.id!)">Excluir</button>
+    </td>
+  </tr>
+</table>

@@ -1,0 +1,146 @@
+<!-- Modal de Sucesso -->
+<div class="modal-overlay" *ngIf="showSuccessModal">
+  <div class="modal-content success">
+    <div class="modal-icon">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+        <circle cx="40" cy="40" r="38" fill="#4CAF50" stroke="#fff" stroke-width="4"/>
+        <path d="M25 40 L35 50 L55 30" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+    </div>
+    <h2>Sucesso!</h2>
+    <p>{{ successMessage }}</p>
+    <button class="btn-modal success" (click)="closeSuccessModal()">OK</button>
+  </div>
+</div>
+
+<!-- Modal de Erro -->
+<div class="modal-overlay" *ngIf="showErrorModal">
+  <div class="modal-content error">
+    <div class="modal-icon">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+        <circle cx="40" cy="40" r="38" fill="#dc3545" stroke="#fff" stroke-width="4"/>
+        <path d="M25 25 L55 55 M55 25 L25 55" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <h2>Erro</h2>
+    <p>{{ errorMessage }}</p>
+    <button class="btn-modal error" (click)="closeErrorModal()">Fechar</button>
+  </div>
+</div>
+
+<!-- Modal de Exclusão -->
+<div class="modal-overlay" *ngIf="showDeleteModal">
+  <div class="modal-content success">
+    <div class="modal-icon">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+        <circle cx="40" cy="40" r="38" fill="#4CAF50" stroke="#fff" stroke-width="4"/>
+        <path d="M25 40 L35 50 L55 30" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+    </div>
+    <h2>Veículo Excluído!</h2>
+    <p>{{ successMessage }}</p>
+    <button class="btn-modal success" (click)="closeDeleteModal()">OK</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <h1 class="title">Informações de Veículos</h1>
+
+  <!-- Barra de pesquisa -->
+  <div class="search-box">
+    <input
+      type="text"
+      placeholder="Buscar por placa, tipo ou status..."
+      [(ngModel)]="searchTerm"
+    >
+  </div>
+
+  <!-- Loading / error -->
+  <div *ngIf="loading" class="loading">Carregando veículos...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <!-- Tabela -->
+  <div class="table-wrapper">
+    <table class="veiculos-table">
+      <thead>
+        <tr>
+          <th>Placa</th>
+          <th>Modelo</th>
+          <th>Motivo</th>
+          <th>Entrada</th>
+          <th>Saída</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let v of veiculosFiltrados">
+          <!-- Placa -->
+          <td>
+            <span *ngIf="editingId !== v.id">{{ v.placa }}</span>
+            <input 
+              *ngIf="editingId === v.id" 
+              type="text" 
+              [(ngModel)]="editModel.placa" 
+              (input)="onPlacaChange()"
+              (keypress)="onPlacaKeyPress($event)"
+              placeholder="ABC-1234"
+              maxlength="8"
+            />
+          </td>
+
+          <!-- Tipo -->
+          <td>
+            <span *ngIf="editingId !== v.id">{{ v.tipo }}</span>
+            <input *ngIf="editingId === v.id" type="text" [(ngModel)]="editModel.tipo" />
+          </td>
+
+          <!-- Status -->
+          <td>
+            <span *ngIf="editingId !== v.id">{{ v.status }}</span>
+            <input *ngIf="editingId === v.id" type="text" [(ngModel)]="editModel.status" />
+          </td>
+
+          <!-- Entrada -->
+          <td>
+            <span *ngIf="editingId !== v.id">
+              {{ v.dataEntrada ? (v.dataEntrada | date:'dd/MM/yyyy') : '—' }}
+            </span>
+            <input *ngIf="editingId === v.id" type="date" [(ngModel)]="editModel.dataEntrada" />
+          </td>
+
+          <!-- Saída -->
+          <td>
+            <span *ngIf="editingId !== v.id">
+              {{ v.dataSaida ? (v.dataSaida | date:'dd/MM/yyyy') : '—' }}
+            </span>
+            <input *ngIf="editingId === v.id" type="date" [(ngModel)]="editModel.dataSaida" />
+          </td>
+
+          <!-- AÇÕES: Editar / Salvar / Cancelar + EXCLUIR -->
+          <td class="actions">
+
+            <!-- Modo normal (não editando) -->
+            <div class="action-buttons" *ngIf="editingId !== v.id">
+              <button class="edit-btn" (click)="startEdit(v)">Editar</button>
+              <button class="delete-btn" (click)="confirmarExclusao(v)">
+                Excluir
+              </button>
+            </div>
+
+            <!-- Modo edição -->
+            <div class="action-buttons editing" *ngIf="editingId === v.id">
+              <button class="save-btn" (click)="saveEdit(v)" [disabled]="saving">Salvar</button>
+              <button class="cancel-btn" (click)="cancelEdit()">Cancelar</button>
+              <button class="delete-btn" (click)="confirmarExclusao(v)">
+                Excluir
+              </button>
+            </div>
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
