@@ -278,10 +278,63 @@ router.get("/aprovar/:token", async (req, res) => {
           console.error("Erro ao enviar email de confirmação:", emailError);
         }
 
-        res.json({ 
-          mensagem: "Registro aprovado com sucesso!",
-          usuario: { nome: usuario.nome, email: usuario.email }
-        });
+        // Retorna página HTML de sucesso
+        res.send(`
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Registro Aprovado</title>
+            <style>
+              body { 
+                font-family: Arial, sans-serif; 
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                min-height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin: 0;
+              }
+              .container {
+                background: white;
+                padding: 3rem;
+                border-radius: 20px;
+                box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                text-align: center;
+                max-width: 500px;
+              }
+              .icon { font-size: 80px; margin-bottom: 20px; }
+              h1 { color: #28a745; margin: 0 0 20px 0; }
+              p { color: #666; line-height: 1.6; margin-bottom: 30px; }
+              .btn {
+                background: #28a745;
+                color: white;
+                padding: 15px 40px;
+                text-decoration: none;
+                border-radius: 50px;
+                font-weight: bold;
+                display: inline-block;
+                transition: all 0.3s;
+              }
+              .btn:hover { 
+                background: #218838; 
+                transform: translateY(-2px);
+                box-shadow: 0 10px 20px rgba(40, 167, 69, 0.3);
+              }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <div class="icon">✅</div>
+              <h1>Registro Aprovado!</h1>
+              <p>O registro de <strong>${usuario.nome}</strong> foi aprovado com sucesso!</p>
+              <p>Um email de confirmação foi enviado para <strong>${usuario.email}</strong></p>
+              <a href="${FRONTEND_URL}/login" class="btn">Ir para Login</a>
+            </div>
+          </body>
+          </html>
+        `);
   } catch (error) {
     console.error("Erro ao aprovar:", error);
     res.status(500).json({ erro: "Erro ao processar aprovação" });
@@ -341,10 +394,63 @@ router.get("/rejeitar/:token", async (req, res) => {
       console.error("Erro ao enviar email de rejeição:", emailError);
     }
 
-    res.json({ 
-          mensagem: "Registro rejeitado",
-          usuario: { nome: usuario.nome, email: usuario.email }
-        });
+    // Retorna página HTML
+    res.send(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Registro Rejeitado</title>
+        <style>
+          body { 
+            font-family: Arial, sans-serif; 
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+          }
+          .container {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 500px;
+          }
+          .icon { font-size: 80px; margin-bottom: 20px; }
+          h1 { color: #dc3545; margin: 0 0 20px 0; }
+          p { color: #666; line-height: 1.6; margin-bottom: 30px; }
+          .btn {
+            background: #6c757d;
+            color: white;
+            padding: 15px 40px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            display: inline-block;
+            transition: all 0.3s;
+          }
+          .btn:hover { 
+            background: #5a6268; 
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(108, 117, 125, 0.3);
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="icon">❌</div>
+          <h1>Registro Rejeitado</h1>
+          <p>O registro de <strong>${usuario.nome}</strong> foi rejeitado.</p>
+          <p>Um email de notificação foi enviado para <strong>${usuario.email}</strong></p>
+          <a href="${FRONTEND_URL}" class="btn">Voltar ao Início</a>
+        </div>
+      </body>
+      </html>
+    `);
   } catch (error) {
     console.error("Erro ao rejeitar:", error);
     res.status(500).json({ erro: "Erro ao processar rejeição" });
@@ -352,20 +458,17 @@ router.get("/rejeitar/:token", async (req, res) => {
 });
 
 // ✅ LOGIN - AGORA VERIFICA O STATUS
-router.post("/login", (req, res) => {
+router.post("/login", async (req, res) => {
   const { email, senha } = req.body;
 
-  db.query("SELECT * FROM administradores_prf WHERE email = ?", [email], async (err, results) => {
-    if (err) {
-      console.error("Erro no banco:", err);
-      return res.status(500).json({ error: "Erro no banco de dados" });
-    }
+  try {
+    const result = await db.query("SELECT * FROM administradores_prf WHERE email = $1", [email]);
 
-    if (!results || results.length === 0) {
+    if (!result.rows || result.rows.length === 0) {
       return res.status(401).json({ message: "Usuário não encontrado" });
     }
 
-    const usuario = results[0];
+    const usuario = result.rows[0];
 
     // ✅ VERIFICA SE O USUÁRIO FOI APROVADO
     if (usuario.status === 'pendente') {
@@ -382,25 +485,23 @@ router.post("/login", (req, res) => {
       });
     }
 
-    try {
-      const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
+    const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
 
-      if (!senhaCorreta) {
-        return res.status(401).json({ message: "Usuário ou senha inválidos" });
-      }
-
-      const token = jwt.sign({ id: usuario.id, nome: usuario.nome }, SECRET_KEY, { expiresIn: "48h" });
-
-      return res.json({
-        message: "Login bem-sucedido",
-        token,
-        usuario: { id: usuario.id, nome: usuario.nome, email: usuario.email }
-      });
-    } catch (errCompare) {
-      console.error("Erro ao comparar senha:", errCompare);
-      return res.status(500).json({ error: "Erro interno" });
+    if (!senhaCorreta) {
+      return res.status(401).json({ message: "Usuário ou senha inválidos" });
     }
-  });
+
+    const token = jwt.sign({ id: usuario.id, nome: usuario.nome }, SECRET_KEY, { expiresIn: "48h" });
+
+    return res.json({
+      message: "Login bem-sucedido",
+      token,
+      usuario: { id: usuario.id, nome: usuario.nome, email: usuario.email }
+    });
+  } catch (err) {
+    console.error("Erro no login:", err);
+    return res.status(500).json({ error: "Erro no banco de dados" });
+  }
 });
 
 // DELETAR conta do usuário
