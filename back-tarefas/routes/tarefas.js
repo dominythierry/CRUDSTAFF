@@ -134,8 +134,9 @@ router.post("/registrar", async (req, res) => {
 
 // ✅ FUNÇÃO PARA ENVIAR EMAIL AO ADMIN
 async function enviarEmailAprovacao(usuario, token) {
-  const linkAprovacao = `${FRONTEND_URL}/aprovar-registro/${token}`;
-  const linkRejeicao = `${FRONTEND_URL}/rejeitar-registro/${token}`;
+  const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:3000";
+  const linkAprovacao = `${BACKEND_URL}/tarefas/aprovar/${token}`;
+  const linkRejeicao = `${BACKEND_URL}/tarefas/rejeitar/${token}`;
 
   const htmlEmail = `
     <!DOCTYPE html>
