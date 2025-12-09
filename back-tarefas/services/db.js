@@ -6,7 +6,8 @@ const pool = new Pool({
   password: process.env.DB_PASSWORD || "root",
   database: process.env.DB_NAME || "vehicle_info",
   port: process.env.DB_PORT || 5432,
-  ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false
+  ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
+  family: 4 // ⭐ Força IPv4
 });
 
 pool.connect((err, client, release) => {
