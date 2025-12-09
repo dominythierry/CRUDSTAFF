@@ -224,40 +224,32 @@ router.get("/aprovar/:token", async (req, res) => {
 
   try {
     // Busca o usuário pelo token
-    const sql = "SELECT * FROM administradores_prf WHERE token_aprovacao = ? AND status = 'pendente'";
+    const sql = "SELECT * FROM administradores_prf WHERE token_aprovacao = $1 AND status = 'pendente'";
     
-    db.query(sql, [token], async (err, results) => {
-      if (err) {
-        console.error("Erro ao buscar usuário:", err);
-        return res.status(500).json({ erro: "Erro ao processar aprovação" });
-      }
+    const result = await db.query(sql, [token]);
 
-      if (results.length === 0) {
-        return res.status(404).json({ erro: "Solicitação não encontrada ou já processada" });
-      }
+    if (result.rows.length === 0) {
+      return res.status(404).json({ erro: "Solicitação não encontrada ou já processada" });
+    }
 
-      const usuario = results[0];
+    const usuario = result.rows[0];
 
-      // Atualiza o status para aprovado
-      const updateSql = `
-        UPDATE administradores_prf 
-        SET status = 'aprovado', data_aprovacao = NOW(), token_aprovacao = NULL 
-        WHERE id = ?
-      `;
+    // Atualiza o status para aprovado
+    const updateSql = `
+      UPDATE administradores_prf 
+      SET status = 'aprovado', data_aprovacao = NOW(), token_aprovacao = NULL 
+      WHERE id = $1
+    `;
 
-      db.query(updateSql, [usuario.id], async (err) => {
-        if (err) {
-          console.error("Erro ao aprovar usuário:", err);
-          return res.status(500).json({ erro: "Erro ao aprovar registro" });
-        }
+    await db.query(updateSql, [usuario.id]);
 
-        // Envia email de confirmação ao usuário
-        try {
-          await transporter.sendMail({
-            from: '"Sistema PRF - Pátio" <prfsenaiofc2@gmail.com>',
-            to: usuario.email,
-            subject: '✅ Seu registro foi aprovado!',
-            html: `
+    // Envia email de confirmação ao usuário
+    try {
+      await transporter.sendMail({
+        from: '"Sistema PRF - Pátio" <prfsenaiofc2@gmail.com>',
+        to: usuario.email,
+        subject: '✅ Seu registro foi aprovado!',
+        html: `
               <!DOCTYPE html>
               <html>
               <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
@@ -289,8 +281,6 @@ router.get("/aprovar/:token", async (req, res) => {
           mensagem: "Registro aprovado com sucesso!",
           usuario: { nome: usuario.nome, email: usuario.email }
         });
-      });
-    });
   } catch (error) {
     console.error("Erro ao aprovar:", error);
     res.status(500).json({ erro: "Erro ao processar aprovação" });
@@ -302,68 +292,58 @@ router.get("/rejeitar/:token", async (req, res) => {
   const { token } = req.params;
 
   try {
-    const sql = "SELECT * FROM administradores_prf WHERE token_aprovacao = ? AND status = 'pendente'";
+    const sql = "SELECT * FROM administradores_prf WHERE token_aprovacao = $1 AND status = 'pendente'";
     
-    db.query(sql, [token], async (err, results) => {
-      if (err) {
-        console.error("Erro ao buscar usuário:", err);
-        return res.status(500).json({ erro: "Erro ao processar rejeição" });
-      }
+    const result = await db.query(sql, [token]);
 
-      if (results.length === 0) {
-        return res.status(404).json({ erro: "Solicitação não encontrada ou já processada" });
-      }
+    if (result.rows.length === 0) {
+      return res.status(404).json({ erro: "Solicitação não encontrada ou já processada" });
+    }
 
-      const usuario = results[0];
+    const usuario = result.rows[0];
 
-      // Atualiza o status para rejeitado
-      const updateSql = `
-        UPDATE administradores_prf 
-        SET status = 'rejeitado', token_aprovacao = NULL 
-        WHERE id = ?
-      `;
+    // Atualiza o status para rejeitado
+    const updateSql = `
+      UPDATE administradores_prf 
+      SET status = 'rejeitado', token_aprovacao = NULL 
+      WHERE id = $1
+    `;
 
-      db.query(updateSql, [usuario.id], async (err) => {
-        if (err) {
-          console.error("Erro ao rejeitar usuário:", err);
-          return res.status(500).json({ erro: "Erro ao rejeitar registro" });
-        }
+    await db.query(updateSql, [usuario.id]);
 
-        // Envia email de notificação ao usuário
-        try {
-          await transporter.sendMail({
-            from: '"Sistema PRF - Pátio" <prfsenaiofc2@gmail.com>',
-            to: usuario.email,
-            subject: '❌ Registro não aprovado',
-            html: `
-              <!DOCTYPE html>
-              <html>
-              <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-                <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-                  <div style="background: #dc3545; color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
-                    <h1 style="margin: 0;">❌ Registro Não Aprovado</h1>
-                  </div>
-                  <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 8px 8px;">
-                    <p>Olá, <strong>${usuario.nome}</strong>,</p>
-                    <p>Informamos que seu registro no Sistema de Gerenciamento do Pátio da PRF não foi aprovado.</p>
-                    <p>Para mais informações, entre em contato com o administrador do sistema.</p>
-                    <p style="color: #666; font-size: 14px; margin-top: 30px;">Atenciosamente,<br>Equipe PRF</p>
-                  </div>
-                </div>
-              </body>
-              </html>
-            `
-          });
-        } catch (emailError) {
-          console.error("Erro ao enviar email de rejeição:", emailError);
-        }
+    // Envia email de notificação ao usuário
+    try {
+      await transporter.sendMail({
+        from: '"Sistema PRF - Pátio" <prfsenaiofc2@gmail.com>',
+        to: usuario.email,
+        subject: '❌ Registro não aprovado',
+        html: `
+          <!DOCTYPE html>
+          <html>
+          <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+            <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+              <div style="background: #dc3545; color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
+                <h1 style="margin: 0;">❌ Registro Não Aprovado</h1>
+              </div>
+              <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 8px 8px;">
+                <p>Olá, <strong>${usuario.nome}</strong>,</p>
+                <p>Informamos que seu registro no Sistema de Gerenciamento do Pátio da PRF não foi aprovado.</p>
+                <p>Para mais informações, entre em contato com o administrador do sistema.</p>
+                <p style="color: #666; font-size: 14px; margin-top: 30px;">Atenciosamente,<br>Equipe PRF</p>
+              </div>
+            </div>
+          </body>
+          </html>
+        `
+      });
+    } catch (emailError) {
+      console.error("Erro ao enviar email de rejeição:", emailError);
+    }
 
-        res.json({ 
+    res.json({ 
           mensagem: "Registro rejeitado",
           usuario: { nome: usuario.nome, email: usuario.email }
         });
-      });
-    });
   } catch (error) {
     console.error("Erro ao rejeitar:", error);
     res.status(500).json({ erro: "Erro ao processar rejeição" });
